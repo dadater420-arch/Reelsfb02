@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src https: data:; connect-src https://hajdefougllyugmamwdn.supabase.co https://api.microlink.io; base-uri 'none'; form-action 'none'">
+<title>reelmate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0d13;--surface:#12161f;--surface2:#171c28;--surface3:#1e2534;--line:#242c3d;--text:#eef2f8;--muted:#9aa7bd;--primary:#2f7dff;--primary2:#4d9bff;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--cyan:#22d3ee}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:'Kanit',system-ui,sans-serif;line-height:1.5;overflow-x:clip}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0}
+button:disabled{opacity:.5;cursor:not-allowed}
+a{color:var(--primary2);overflow-wrap:anywhere}
+input,select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(47,125,255,.18)}
+input[type=checkbox]{width:20px;height:20px;padding:0}
+label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+.wrap{max-width:1100px;margin:0 auto;padding:12px 14px 40px}
+.auth{max-width:440px;margin:0 auto;padding:40px 16px}
+.logo{display:flex;align-items:center;gap:10px;font-size:26px;font-weight:800}
+.logo b{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:var(--primary);box-shadow:0 8px 20px rgba(47,125,255,.3)}
+.logo i{font-style:normal;color:var(--primary2)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px}
+.sub{background:var(--surface2);border-radius:16px;padding:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.grow{flex:1}
+.grid{display:grid;gap:12px}
+@media(min-width:720px){.grid.c2{grid-template-columns:1fr 1fr}.grid.c3{grid-template-columns:repeat(3,1fr)}.grid.c4{grid-template-columns:repeat(4,1fr)}}
+.btn{padding:11px 16px;border-radius:12px;background:var(--primary);color:#fff;font-weight:700;font-size:14px}
+.btn:hover:not(:disabled){background:var(--primary2)}
+.btn.g{background:rgba(255,255,255,.1)}.btn.r{background:rgba(239,68,68,.18);color:#fca5a5}.btn.ok{background:var(--green);color:#04130a}.btn.a{background:rgba(245,158,11,.2);color:#fcd34d}
+.btn.s{padding:8px 12px;font-size:12px}.btn.w{width:100%}
+.tabs{position:relative;display:flex;gap:4px;background:var(--surface);padding:4px;border-radius:16px;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;padding:10px 14px;border-radius:12px;background:none;color:var(--muted);font-weight:700;font-size:14px;white-space:nowrap}
+.tabs button.on{background:var(--primary);color:#fff}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700;background:rgba(255,255,255,.08);color:var(--muted)}
+.pill.g{background:#22c55e22;color:#4ade80}.pill.a{background:#f59e0b22;color:#fbbf24}.pill.r{background:#ef444422;color:#f87171}.pill.b{background:#2f7dff22;color:#7db4ff}
+.bar{height:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}.bar>i{display:block;height:100%;background:linear-gradient(90deg,#3b82f6,#22d3ee)}
+.muted{color:var(--muted);font-size:13px}
+.cover{position:relative;height:180px;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;color:#fff}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover span{position:relative;font-weight:700;text-shadow:0 1px 4px #0008}
+.err{background:#ef444418;color:#f87171;border-radius:12px;padding:10px 12px;font-size:13px;font-weight:600;margin-top:10px}
+.warn{background:#f59e0b18;border:1px solid #f59e0b55;color:#fcd34d;border-radius:16px;padding:12px 14px;font-size:13px;font-weight:600;margin-top:12px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#0b2a17;border:1px solid #22c55e66;padding:12px 18px;border-radius:14px;z-index:99;font-weight:600;max-width:90vw}
+.toast.bad{background:#2a0b0b;border-color:#ef444466}
+.mask{position:fixed;inset:0;background:#000b;z-index:50;display:grid;place-items:center;padding:14px}
+.modal{width:min(480px,100%);max-height:90vh;overflow:auto;background:var(--surface2);border:1px solid var(--line);border-radius:24px;padding:20px;position:relative}
+.modal h3{margin:0 0 4px;font-size:19px}
+.x{position:absolute;right:14px;top:14px;background:rgba(255,255,255,.1);border-radius:10px;width:34px;height:34px}
+.head{position:sticky;top:0;z-index:20;background:#0a0d13ee;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:10px 14px}
+.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700}
+.stat{font-size:26px;font-weight:800}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:8px 6px;text-align:left;border-bottom:1px solid #ffffff10}
+.scroll{overflow-x:auto}
+.play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:#000a;display:grid;place-items:center;pointer-events:none}
+.steps2{display:flex;gap:8px;align-items:center;font-size:12px;font-weight:700;margin:14px 0 4px}.steps2 span{padding:6px 12px;border-radius:99px;background:var(--surface);color:var(--muted)}.steps2 span.on{background:var(--primary);color:#fff}
+.pwrap{position:relative}.pwrap button{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border-radius:10px;padding:6px 9px}
+.pills3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}.pills3 button{padding:11px 4px;border-radius:12px;background:var(--surface2);color:var(--muted);font-size:12px;font-weight:700}.pills3 button.on{background:var(--primary);color:#fff}
+body.busy #app{pointer-events:none}
+body.busy{cursor:progress}
+.topbar{position:fixed;left:0;top:0;height:3px;width:100%;z-index:300;background:linear-gradient(90deg,transparent,#4d9bff,#22d3ee,transparent) no-repeat;background-size:50% 100%;animation:bar 1s linear infinite}
+@keyframes bar{from{background-position:-50% 0}to{background-position:150% 0}}
+.bchip{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:300;display:flex;gap:10px;align-items:center;max-width:92vw;background:var(--surface2);border:1px solid var(--line);padding:10px 16px;border-radius:99px;font-size:13px;font-weight:600;box-shadow:0 8px 30px #0008;opacity:0;animation:fin .2s .6s forwards}
+@keyframes fin{to{opacity:1}}
+.spin{width:16px;height:16px;flex:0 0 16px;border-radius:50%;border:2px solid rgba(255,255,255,.15);border-top-color:var(--primary2);animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* ---- แอดมิน ---- */
+.ah{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:16px}.ah h2{margin:0;font-size:21px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:720px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:960px){.kpis{grid-template-columns:repeat(6,1fr)}}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px}
+.kpi small{display:block;color:var(--muted);font-size:12px}.kpi b{font-size:26px;line-height:1.3}
+.todo{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-top:8px;font-weight:600;font-size:14px}
+.todo .n{margin-left:auto}
+.badge{display:inline-block;min-width:18px;padding:0 6px;margin-left:6px;border-radius:99px;background:#f59e0b;color:#1a1100;font-size:11px;font-style:normal;font-weight:800;line-height:18px;text-align:center}
+.fchips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:12px 0 4px}.fchips::-webkit-scrollbar{display:none}
+.fchips button{flex:0 0 auto;padding:7px 14px;border-radius:99px;background:var(--surface);border:1px solid var(--line);color:var(--muted);font-size:13px;font-weight:600}.fchips button.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.acard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:10px}.grid>.acard{margin-top:0}
+.astat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}.astat div{background:var(--surface2);border-radius:12px;padding:8px;text-align:center}.astat b{display:block;font-size:17px}.astat small{color:var(--muted);font-size:11px}
+details.mg{margin-top:10px}details.mg summary{cursor:pointer;list-style:none;padding:10px 12px;border-radius:12px;background:var(--surface2);font-size:13px;font-weight:700;color:var(--muted)}details.mg summary::-webkit-details-marker{display:none}details.mg[open] summary{color:var(--text)}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.agrid .btn{padding:10px 6px;font-size:13px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.cmp>div{background:var(--surface2);border-radius:12px;padding:10px}.cmp small{display:block;color:var(--muted);font-size:11px}.cmp b{font-size:14px;overflow-wrap:anywhere}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g2 label{font-size:12px;margin-top:6px}
+.sw{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-top:8px;font-size:14px;font-weight:600}.sw input{margin-left:auto;flex:0 0 20px}
+.asec{margin:20px 2px 0;font-size:13px;font-weight:700;color:var(--muted)}
+.ell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.hs{grid-template-columns:repeat(3,1fr)!important;gap:8px}.hs .sub{padding:10px}.head .btn{white-space:nowrap}@media(max-width:560px){.head #q-search{order:10;flex:1 1 100%;max-width:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast"></div>
+<div id="prog"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
+<script>
+'use strict';
+/* ============ ตั้งค่า (publishable key เปิดเผยได้ ความปลอดภัยอยู่ที่ RLS ฝั่งฐานข้อมูล) ============ */
+const SB_URL = 'https://hajdefougllyugmamwdn.supabase.co';
+const SB_KEY = 'sb_publishable_nfamPECiovzrLjkzPtTOJg_E9MDNb75';
+const sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
+
+/* ============ ตัวช่วย ============ */
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl = u => /^https?:\/\//i.test(u || '') ? esc(u) : '#';
+const httpsUrl = u => /^https:\/\//i.test(u || '') ? esc(u) : '';
+const BAD_BASKET_RE = /^\s*(https?:\/\/|www\.)|(facebook|instagram)\.com\/|fb\.watch|instagr\.am|fb\.gg|shope\.ee|shopee\.co\.th\//i;
+const BAD_BASKET_MSG = 'ชื่อสินค้าในตะกร้าเป็นลิงก์ ไม่ใช่ชื่อสินค้า — เปิดสินค้าในแอป Shopee แล้วแตะค้างที่ชื่อสินค้า → คัดลอก → วางที่นี่ เพื่อให้เพื่อนตรวจชื่อได้';
+const stLabel = r => /^ครบ/.test(r.status) ? 'ครบ ' + r.goal : r.status;
+const badBasket =r => BAD_BASKET_RE.test((r.basket || []).join(', '));
+const REEL_RE =/^https?:\/\/([a-z0-9-]+\.)*(facebook\.com|fb\.watch|fb\.com|fb\.gg|instagram\.com|instagr\.am)(\/|$)/i;
+const fmt = d => new Date(d).toLocaleString('th-TH', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'});
+const today = () => new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Bangkok'}).format(new Date());
+const code = p => 'RM' + String(p.member_no).padStart(3, '0');
+const ini = s => (s || '?').trim().slice(0, 1).toUpperCase();
+const GRAD = ['#2563eb,#06b6d4','#7c3aed,#db2777','#059669,#14b8a6','#ea580c,#f43f5e','#1d4ed8,#7c3aed'];
+const grad = s => { let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return `linear-gradient(135deg,${GRAD[h % GRAD.length]})`; };
+const pct = (a, b) => Math.min(100, Math.round(a / Math.max(1, b) * 100));
+const $ = id => document.getElementById(id);
+const val = id => ($(id)?.value ?? '').trim();
+
+let tt; function toast(msg, bad) {
+  $('toast').innerHTML = `<div class="toast ${bad ? 'bad' : ''}">${esc(msg)}</div>`;
+  clearTimeout(tt); tt = setTimeout(() => $('toast').innerHTML = '', 3500);
+}
+const niceErr = e => {
+  const m = e?.message || String(e);
+  if (/Invalid login/i.test(m)) return 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
+  if (/already registered|duplicate key|profiles_username_key/i.test(m)) return 'ชื่อผู้ใช้นี้มีคนใช้แล้ว';
+  if (/rate limit|too many/i.test(m)) return 'ลองบ่อยเกินไป รอสักครู่แล้วลองใหม่';
+  if (/Password should/i.test(m)) return 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร';
+  return m;
+};
+
+/* ============ ดึงรูปปกจากลิงก์ Reel (ผ่าน microlink) ============ */
+async function fetchCover(link) {
+  const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 9000);
+  try {
+    const r = await fetch('https://api.microlink.io/?url=' + encodeURIComponent(link), { signal: ctl.signal });
+    if (!r.ok) return null;
+    const j = await r.json();
+    const u = j?.data?.image?.url || j?.data?.screenshot?.url || '';
+    return /^https:\/\//i.test(u) ? u : null;
+  } catch { return null; } finally { clearTimeout(t); }
+}
+async function loadCover(force) {
+  const m = S.modal; if (!m || m.t !== 'add') return;
+  const link = m.link; m.coverState = 'loading'; render();
+  const url = await fetchCover(link);
+  if (S.modal !== m || m.step !== 2) return;
+  const typed = val('a-cover'), old = m.cover;
+  m.coverState = url ? 'ok' : 'fail'; if (url) m.cover = url;
+  render();
+  if (url && (!typed || typed === old) && $('a-cover')) $('a-cover').value = url;
+}
+
+/* ============ สถานะ ============ */
+const S = { ready:false, mode:'login', me:null, set:null, tab:'feed', atab:'overview', platform:'ทั้งหมด',
+  feed:[], myReels:[], myHelps:[], board:[], gate:null, modal:null, adm:null, busy:false, err:'', q:'', uq:'', uf:'all', hf:'รอตรวจ', rf:'รอตรวจสอบ', showpw:false, splat:'ทั้ง 2 อย่าง' };
+try { S.guideHidden = localStorage.getItem('rm_guide_hidden') === '1'; } catch (e) { S.guideHidden = false; }
+try { const q = new URLSearchParams(location.search).get('ref'); if (q && /^[A-Za-z]{0,3}\d{1,6}$/.test(q)) { localStorage.setItem('rm_ref', q.toUpperCase()); S.mode = 'signup'; } } catch (e) {}
+try { S.ref = localStorage.getItem('rm_ref') || ''; } catch (e) { S.ref = ''; }
+const inviteLink = () => location.origin + location.pathname + '?ref=' + code(S.me);
+
+/* ============ โหลดข้อมูล ============ */
+async function load() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { S.me = null; S.ready = true; return render(); }
+  const uid = session.user.id;
+  const [me, set, feed, mine, helps, board, gate, invites] = await Promise.all([
+    sb.from('profiles').select('*').eq('id', uid).maybeSingle(),
+    sb.from('settings').select('*').eq('id', 1).single(),
+    sb.rpc('get_feed', { p_platform: S.platform === 'ทั้งหมด' ? null : S.platform }),
+    sb.from('reels').select('*').eq('owner_id', uid).order('posted_at', { ascending: false }),
+    sb.from('helps').select('id,reel_id,clip_title,typed,status,helped_date,created_at').eq('helper_id', uid).order('created_at', { ascending: false }).limit(50),
+    sb.rpc('get_leaderboard'),
+    sb.rpc('can_post_reel'),
+    sb.rpc('get_my_invites')
+  ]);
+  if (!me.data) { await sb.auth.signOut(); S.me = null; S.ready = true; return render(); }
+  Object.assign(S, { me: me.data, set: set.data, feed: feed.data || [], myReels: mine.data || [],
+    myHelps: helps.data || [], board: board.data || [], gate: gate.data, invites: invites.data || [], ready: true });
+  try { const pend = JSON.parse(sessionStorage.getItem('rm_help_pending') || 'null'); sessionStorage.removeItem('rm_help_pending');
+    if (pend && Date.now() - pend.t < 900000 && !S.modal && S.feed.some(x => x.id === pend.id)) S.modal = { t: 'help', id: pend.id, step: 2 }; } catch (e) {}
+  if (S.me.role === 'admin' && S.tab === 'admin') await loadAdmin();
+  /* เจ้าของคลิปที่ใส่ลิงก์แทนชื่อสินค้า → เด้งหน้าแก้ไขทันที */
+  if (!S.modal) { const bad = S.myReels.find(r => r.status !== 'หยุดแสดง' && badBasket(r)); if (bad) { S.modal = { t: 'edit', id: bad.id }; S.err = '⚠️ ' + BAD_BASKET_MSG; } }
+  render();
+}
+async function loadAdmin() {
+  const [users, reels, helps, reports, credits, edits] = await Promise.all([
+    sb.from('profiles').select('*').order('member_no', { ascending: false }).limit(500),
+    sb.from('reels').select('*,profiles(display_name)').order('posted_at', { ascending: false }).limit(200),
+    sb.from('helps').select('*,profiles(display_name)').order('created_at', { ascending: false }).limit(200),
+    sb.from('reports').select('*,profiles(display_name),reels(title,link)').order('created_at', { ascending: false }).limit(200),
+    sb.from('credit_logs').select('*,profiles!credit_logs_user_id_fkey(display_name)').order('created_at', { ascending: false }).limit(100),
+    sb.from('reel_edits').select('*').order('created_at', { ascending: false }).limit(500)
+  ]);
+  S.adm = { users: users.data || [], reels: reels.data || [], helps: helps.data || [], reports: reports.data || [], credits: credits.data || [], edits: edits.data || [] };
+}
+/* ============ ป๊อปอัพแสดงความคืบหน้า ============ */
+const TITLES = {
+  'อัปเดตสถานะแล้ว':'กำลังอัปเดตสถานะผู้ใช้','เพิ่มใบเตือนแล้ว':'กำลังเพิ่มใบเตือน','อัปเดตแล้ว':'กำลังอัปเดตข้อมูล',
+  'อัปเดตป้ายแล้ว':'กำลังอัปเดตป้าย','อัปเดตคลิปแล้ว':'กำลังอัปเดตคลิป','ลบคลิปแล้ว':'กำลังลบคลิป',
+  'อนุมัติแล้ว':'กำลังอนุมัติ','ปฏิเสธแล้ว':'กำลังปฏิเสธ','ตัดเครดิตแล้ว':'กำลังตัดเครดิต','บันทึกแล้ว':'กำลังบันทึก','แก้ไขคลิปแล้ว':'กำลังบันทึกการแก้ไข','แลกบัตรสำเร็จ':'กำลังแลกบัตร','ดันคลิปขึ้นใหม่แล้ว':'กำลังดันคลิปขึ้นใหม่',
+  'พักคลิปแล้ว':'กำลังพักคลิป','ลบรายงานแล้ว':'กำลังลบรายงาน','สมัครสำเร็จ ยินดีต้อนรับ!':'กำลังสมัครสมาชิก',
+  'ช่วยสำเร็จ!':'กำลังบันทึกการช่วย','โพสต์สำเร็จ รอเพื่อนมาช่วย':'กำลังโพสต์คลิป','ส่งรายงานแล้ว':'กำลังส่งรายงาน',
+  'ปรับเครดิตแล้ว':'กำลังปรับเครดิต','บันทึกการตั้งค่าแล้ว':'กำลังบันทึกการตั้งค่า'
+};
+const Prog = {
+  slowT:null, quiet:false,
+  open(title, steps, quiet) {
+    clearTimeout(this.slowT); this.quiet = !!quiet;
+    document.body.classList.add('busy');
+    $('prog').innerHTML = `<div class="topbar"></div><div class="bchip"><div class="spin"></div><span id="btxt">${esc(title)}…</span></div>`;
+    this.slowT = setTimeout(() => { const t = $('btxt'); if (t) t.textContent = 'เครือข่ายช้ากว่าปกติ รอสักครู่ อย่ากดซ้ำ…'; }, 8000);
+  },
+  step() {},
+  finish(msg) { this.close(); if (msg && !this.quiet) toast(msg); },
+  fail() { this.close(); },
+  close() { clearTimeout(this.slowT); document.body.classList.remove('busy'); $('prog').innerHTML = ''; }
+};
+const withTimeout = (p, ms = 30000) => Promise.race([p, new Promise((_, rj) => setTimeout(() => rj(new Error('ใช้เวลานานเกินไป ตรวจสอบอินเทอร์เน็ตแล้วลองใหม่')), ms))]);
+
+async function go(fn, okMsg, title) {
+  if (S.busy) { toast('กำลังดำเนินการอยู่ กรุณารอสักครู่', true); return; }
+  S.busy = true;
+  Prog.open(title || TITLES[okMsg] || 'กำลังดำเนินการ', ['ส่งคำขอไปยังเซิร์ฟเวอร์', 'บันทึกข้อมูลแล้ว', 'โหลดข้อมูลล่าสุด']);
+  try {
+    await withTimeout(fn());
+    Prog.step(1); S.modal = null; S.err = ''; try { sessionStorage.removeItem('rm_help_pending'); } catch (e) {}
+    Prog.step(2); await withTimeout(load());
+    Prog.finish(okMsg || 'เสร็จเรียบร้อย');
+  } catch (e) { S.err = niceErr(e); Prog.fail(niceErr(e)); toast(niceErr(e), true); render(); }
+  finally { S.busy = false; if (!S.me) render(); }
+}
+/* งานโหลดข้อมูลทั่วไป (สลับแท็บ/ตัวกรอง/ออกจากระบบ) พร้อมป๊อปอัพ */
+async function quick(title, fn) {
+  if (S.busy) { toast('กำลังดำเนินการอยู่ กรุณารอสักครู่', true); return; }
+  S.busy = true; Prog.open(title, [], true);
+  try { await withTimeout(fn()); Prog.step(1); render(); Prog.finish('เรียบร้อย'); }
+  catch (e) { Prog.fail(niceErr(e)); toast(niceErr(e), true); }
+  finally { S.busy = false; if (!S.me) render(); }
+}
+const must = r => { if (r.error) throw r.error; return r.data; };
+
+/* ============ มุมมอง ============ */
+const view = {};
+view.auth = () => `
+<div class="auth">
+  <div class="logo"><b>R</b><span>reel<i>mate</i></span></div>
+  <p class="muted" style="margin:10px 0 18px">ช่วยกันคนละนิด เติบโตไปด้วยกัน</p>
+  <div class="card">
+    <div class="tabs"><button class="${S.mode==='login'?'on':''}" data-act="mode" data-v="login">เข้าสู่ระบบ</button><button class="${S.mode==='signup'?'on':''}" data-act="mode" data-v="signup">สมัครสมาชิก</button></div>
+    ${S.mode==='signup'&&S.ref?`<div class="warn" style="margin-top:10px">🎁 คุณถูกเชิญโดยเพื่อนรหัส <b>${esc(S.ref)}</b></div>`:''}
+    <form data-form="${S.mode}" autocomplete="on">
+      ${S.mode==='signup'?`<label for="f-name">ชื่อที่แสดง</label><input id="f-name" maxlength="60" placeholder="เช่น บ้านๆนี่แหละ" required>`:''}
+      <label for="f-user">ชื่อผู้ใช้</label><input id="f-user" maxlength="30" autocomplete="username" placeholder="ภาษาอังกฤษตัวเล็ก/ตัวเลข . _ -" required>
+      <label for="f-pass">รหัสผ่าน</label><div class="pwrap"><input id="f-pass" type="${S.showpw?'text':'password'}" minlength="6" autocomplete="${S.mode==='login'?'current-password':'new-password'}" placeholder="อย่างน้อย 6 ตัวอักษร" style="padding-right:56px" required><button type="button" data-act="pw" aria-label="แสดง/ซ่อนรหัสผ่าน">${S.showpw?'🙈':'👁'}</button></div>
+      ${S.mode==='signup'?`<label for="f-pass2">ยืนยันรหัสผ่าน</label><input id="f-pass2" type="${S.showpw?'text':'password'}" autocomplete="new-password" required>
+      <label>เลือกแพลตฟอร์มหลัก</label><div class="pills3" role="radiogroup">${['Facebook Reels','Instagram Reels','ทั้ง 2 อย่าง'].map(x=>`<button type="button" role="radio" aria-checked="${S.splat===x}" class="${S.splat===x?'on':''}" data-act="splat" data-v="${x}">${x}</button>`).join('')}</div>`:''}
+      ${S.err?`<div class="err" role="alert">${esc(S.err)}</div>`:''}
+      <button class="btn w" style="margin-top:18px" ${S.busy?'disabled':''}>${S.mode==='login'?'เข้าสู่ระบบ':'สมัครสมาชิก'}</button>
+    </form>
+  </div>
+</div>`;
+
+const coverHtml = r => `<div class="cover" style="background:${grad(r.title + (r.owner_name||''))}">${httpsUrl(r.cover)?`<img src="${httpsUrl(r.cover)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:''}<span>${esc(r.title)}</span></div>`;
+
+view.feedCard = r => {
+  const mine = r.owner_id === S.me.id;
+  const done = S.myHelps.some(h => h.reel_id === r.id && h.helped_date === today());
+  const hot = r.owner_helped >= 10 || r.rank <= 3;
+  return `<article class="card">
+    <div class="row"><div class="av" style="background:${esc(r.owner_color)}33;color:${esc(r.owner_color)}">${esc(ini(r.owner_name))}</div>
+      <div class="grow"><b>${esc(r.owner_name)}</b><div class="muted">${esc(r.platform)} Reels</div></div>
+      ${r.pinned?'<span class="pill a">📌 ปักหมุด</span>':''}</div>
+    <div class="row" style="margin:10px 0"><span class="pill a">อันดับที่ ${r.rank} ในฟีด</span><span class="pill ${hot?'a':''}">${hot?'🔥':'⭐'} ช่วยเพื่อน ${r.owner_helped} งาน${hot?' • ดันขึ้นก่อน':''}</span></div>
+    <div style="position:relative">${coverHtml(r)}<span class="play">▶</span></div>
+    <div class="row" style="margin-top:10px;justify-content:space-between"><span class="muted">ความคืบหน้า</span><b>${r.progress}/${r.goal} คน</b></div>
+    <div class="bar"><i style="width:${pct(r.progress, r.goal)}%"></i></div>
+    <div class="row" style="margin-top:12px">
+      ${mine?'<span class="muted">คลิปของคุณ</span>':`<button class="btn grow" data-act="help" data-id="${esc(r.id)}" ${done?'disabled':''}>${done?'ช่วยแล้ววันนี้':'ช่วยเพื่อน +'+S.set.point_per_help}</button>
+      ${S.set.report_on?`<button class="btn g" data-act="report" data-id="${esc(r.id)}">แจ้งไม่พบตะกร้า</button>`:''}`}
+    </div>
+    <button class="btn g w" style="margin-top:8px" data-act="detail" data-id="${esc(r.id)}">ดูรายละเอียดคลิป</button>
+    ${done&&!mine?'<p class="muted" style="text-align:center;margin:8px 0 0">คุณเคยช่วยคลิปนี้แล้ว • ดูสถานะด้านล่างได้เลย</p>':''}</article>`;
+};
+
+view.gateBanner = () => {
+  const g = S.gate; if (!g) return '';
+  if (g.ok && g.use_pass) return `<div class="warn">🎟️ คุณมีบัตรข้ามการช่วย ${g.passes} ใบ — ลงคลิปถัดไประบบจะใช้ 1 ใบให้อัตโนมัติ</div>`;
+  if (g.ok !== false || !g.required) return '';
+  const cost = S.set.skip_pass_cost || 0;
+  return `<div class="warn">⚠️ ต้องช่วยงานเพื่อนอีก ${g.need} งาน ถึงจะลงคลิปต่อไปได้ (ช่วยแล้ว ${g.helped}/${g.required})
+    <div class="bar" style="margin-top:8px"><i style="width:${pct(g.helped, g.required)}%"></i></div>
+    ${cost > 0 ? `<button class="btn g s w" style="margin-top:10px" data-act="tab" data-v="rewards">🎁 ไม่อยากช่วย? แลกบัตรข้ามด้วย ${cost} ★</button>` : ''}</div>`;
+};
+
+view.vis = () => { const q = S.q.trim().toLowerCase(), base = S.feed.filter(r => !r.helped_by_me && !S.myHelps.some(h => h.reel_id === r.id && h.helped_date === today())); return q ? base.filter(r => (r.title + ' ' + r.owner_name).toLowerCase().includes(q)) : base; };
+view.guide = () => S.guideHidden ? '' : `<div class="card" style="position:relative;margin-top:14px;padding-right:56px;background:linear-gradient(135deg,#16233d,#12161f)"><button class="x" data-act="guide-close" aria-label="ปิดคำแนะนำ">✕</button>
+  <b style="color:var(--cyan)">📖 วิธีช่วยเพื่อน</b>
+  <ol style="margin:8px 0 0;padding-left:20px;line-height:1.8">
+    <li>กด “ช่วยเพื่อน” ที่คลิปในฟีด แล้วเปิดคลิปดูตะกร้าสินค้า</li>
+    <li>กลับมาพิมพ์ชื่อสินค้าให้ตรงกับที่เห็นในตะกร้า ${S.set.auto_approve_exact ? 'ถ้าตรงเป๊ะ ระบบอนุมัติให้ทันที' : 'แอดมินจะตรวจให้'}</li>
+    <li>ได้ +${esc(S.set.point_per_help)} ดาวทุกครั้งที่ช่วย ยิ่งช่วยเยอะ คลิปของคุณยิ่งขึ้นบนฟีด</li>
+    <li>ช่วยเจ้าของคนเดียวกันได้วันละ ${esc(S.set.per_owner)} ครั้ง • ลงคลิปใหม่ต้องช่วยเพื่อนให้ครบ ${esc(S.set.helps_required_for_next_clip)} งานก่อน (เมื่อคลิปค้างเต็มโควต้า)</li>
+  </ol></div>`;
+view.feed = () => `
+  ${view.guide()}
+  ${view.gateBanner()}
+  <div class="row" style="margin:14px 0">${['ทั้งหมด','Facebook','Instagram'].map(p => `<button class="btn ${S.platform===p?'':'g'} s" data-act="plat" data-v="${p}">${p==='ทั้งหมด'?'ฟีดทั้งหมด':'ฟีด '+p}</button>`).join('')}${S.guideHidden?'<button class="btn g s" data-act="guide-open">❓ วิธีช่วย</button>':''}
+    <span class="muted" style="margin-left:auto">${view.vis().length} คลิป • คนละ 1 คลิป ช่วยเยอะขึ้นก่อน</span></div>
+  <div class="warn" style="margin:0 0 12px;color:#fcd34d">🔥 เรียงตามคนช่วยเยอะสุดขึ้นก่อน — ยิ่งช่วยเยอะ คลิปยิ่งขึ้นบน • ช่วยเท่ากัน คลิปที่ใหม่กว่าขึ้นก่อน</div>
+  ${view.vis().length ? `<div class="grid c2">${view.vis().map(view.feedCard).join('')}</div>` : (S.feed.length ? `<div class="card" style="text-align:center;padding:40px"><div style="font-size:30px">🎉</div><b>คุณช่วยครบทุกคลิปแล้ว</b><p class="muted">รอเพื่อนลงคลิปใหม่ แล้วค่อยกลับมาช่วยกันนะ</p></div>` : `<div class="card" style="text-align:center;padding:40px"><div style="font-size:30px">🎬</div><b>ยังไม่มีคลิป</b><p class="muted">เป็นคนแรกที่วางลิงก์ Reel</p></div>`)}
+  <div class="card" style="margin-top:16px"><b>การช่วยล่าสุดของฉัน</b>
+    ${S.myHelps.slice(0, 5).map(h => `<div class="sub row" style="margin-top:8px"><div class="grow"><b>${esc(h.clip_title)}</b><div class="muted">พิมพ์ว่า “${esc(h.typed)}” • ${fmt(h.created_at)}</div></div><span class="pill ${h.status==='ตรงกัน'?'g':h.status==='ไม่ตรง'?'r':'a'}">${esc(h.status)}</span></div>`).join('') || '<p class="muted">ยังไม่มีการช่วย</p>'}
+  </div>`;
+
+view.history = () => `
+  ${view.gateBanner()}
+  <div class="card" style="margin-top:14px"><div class="row"><div class="grow"><b>ประวัติงานของฉัน</b><div class="muted">คลิปที่คุณเพิ่มทั้งหมด ${S.myReels.length} คลิป</div></div><button class="btn" data-act="add">+ เพิ่ม Reel</button></div>
+  ${S.myReels.length ? (() => { const mf = S.feed.find(x => x.owner_id === S.me.id); return mf ? `<div class="warn"><b>🔥 คลิปของฉันอยู่อันดับที่ ${mf.rank} ในฟีด</b> จาก ${S.feed.length} คลิป • ช่วยเพื่อนไปแล้ว ${S.me.helped} งาน ยิ่งช่วยเยอะ คลิปยิ่งขึ้นบน` : `<div class="warn">คลิปของฉันยังไม่ขึ้นฟีดตอนนี้ • ช่วยเพื่อนไปแล้ว ${S.me.helped} งาน — คลิปที่ครบเป้าหรือหยุดแสดงจะไม่ขึ้นฟีด`; })() + '</div>' : ''}
+  ${S.myReels.map(r => `<div class="sub" style="margin-top:10px"><b>${esc(r.title)}</b>
+    <div class="muted">${esc(r.platform)} • ${r.progress}/${r.goal} คน • ${esc(stLabel(r))} • ${fmt(r.posted_at)}</div>
+    <div class="muted">ตะกร้า: ${esc((r.basket||[]).join(', '))}</div>
+    <div class="bar" style="margin:6px 0"><i style="width:${pct(r.progress, r.goal)}%"></i></div>
+    <div class="row" style="margin-top:6px"><a class="grow" href="${safeUrl(r.link)}" rel="noopener noreferrer nofollow">เปิดลิงก์ Reel ↗</a><button class="btn g s" data-act="edit" data-id="${esc(r.id)}">✏️ แก้ไข</button></div>${bumpBtn(r)}</div>`).join('') || '<p class="muted" style="text-align:center;padding:24px">ยังไม่มีคลิป กดเพิ่ม Reel แล้ววางลิงก์แรกได้เลย</p>'}</div>`;
+
+view.board = () => `<div class="card" style="margin-top:14px"><b>Leaderboard — คนช่วยเพื่อนเยอะสุด</b>
+  ${S.board.map(u => `<div class="sub row" style="margin-top:8px"><b style="width:32px;text-align:center">${u.rank<=3?['🥇','🥈','🥉'][u.rank-1]:u.rank}</b>
+   <div class="av" style="background:${esc(u.color)}33;color:${esc(u.color)}">${esc(ini(u.display_name))}</div>
+   <div class="grow"><b>${esc(u.display_name)}</b><div class="muted">@${esc(u.username)}</div></div>
+   <div style="text-align:right"><b style="color:#4ade80">${u.helped} ครั้ง</b><div class="muted">${u.stars} ดาว</div></div></div>`).join('') || '<p class="muted">ยังไม่มีสมาชิก</p>'}</div>`;
+
+/* ----- แอดมิน (สิทธิ์ตรวจจากบทบาทในฐานข้อมูลเท่านั้น ไม่มีรหัสลับฝั่งหน้าเว็บ) ----- */
+const ATABS = [['overview','📊','ภาพรวม'],['users','👥','สมาชิก'],['reels','🎬','Reel'],['helps','✅','ตรวจการช่วย'],['reports','🚩','รายงาน'],['credits','⭐','เครดิต'],['settings','⚙️','ตั้งค่า']];
+view.admin = () => {
+  const A = S.adm; if (!A) return '<p class="muted" style="padding:20px">กำลังโหลด…</p>';
+  const cnt = { helps: A.helps.filter(h => h.status === 'รอตรวจ').length, reports: A.reports.filter(r => r.status === 'รอตรวจสอบ').length };
+  const tabs = `<div class="tabs" style="margin-top:12px">${ATABS.map(([k, ic, l]) => `<button class="${S.atab===k?'on':''}" data-act="atab" data-v="${k}">${ic} ${l}${cnt[k]?`<i class="badge">${cnt[k]}</i>`:''}</button>`).join('')}</div>`;
+  return `<div class="ah"><h2>🛡️ แผงแอดมิน</h2><span class="muted">จัดการสมาชิก คลิป และการตรวจสอบ</span></div>${tabs}<div style="margin-top:6px">${view['a_' + S.atab](A, cnt)}</div>`;
+};
+const hpill = st => st === 'ตรงกัน' ? 'g' : st === 'ไม่ตรง' ? 'r' : 'a';
+view.a_overview = (A, cnt) => {
+  const live = A.reels.filter(r => r.status !== 'หยุดแสดง' && r.progress < r.goal).length;
+  const susp = A.users.filter(u => u.suspended).length;
+  const K = [['👥','สมาชิก',A.users.length,'#4d9bff'],['🎬','Reel ที่เปิดอยู่',live,'#22d3ee'],['🤝','ครั้งที่ช่วย',A.users.reduce((n,u)=>n+u.helped,0),'#4ade80'],['✅','รอตรวจ',cnt.helps,'#fbbf24'],['🚩','รายงานค้าง',cnt.reports,'#fb923c'],['⛔','ถูกระงับ',susp,'#f87171']];
+  const T = [['helps','✅','ตรวจการช่วยที่รอตรวจ',cnt.helps],['reports','🚩','รายงานไม่พบตะกร้า',cnt.reports],['users','⛔','สมาชิกที่ถูกระงับ',susp]].filter(t => t[3] > 0);
+  return `<div class="kpis" style="margin-top:12px">${K.map(([ic,l,v,c]) => `<div class="kpi"><small>${ic} ${l}</small><b style="color:${c}">${v}</b></div>`).join('')}</div>
+  <div class="asec">ต้องจัดการ</div>
+  ${T.length ? T.map(([k,ic,l,n]) => `<button class="todo" data-act="atab" data-v="${k}">${ic} ${l}<span class="pill a n">${n}</span></button>`).join('') : '<div class="sub" style="margin-top:8px;text-align:center"><span class="muted">ไม่มีงานค้าง 🎉</span></div>'}`;
+};
+const UF = [['all','ทั้งหมด'],['active','ใช้งาน'],['susp','ระงับ'],['admin','แอดมิน']];
+const userCard = u => {
+  const self = u.id === S.me.id, uid = esc(u.id);
+  return `<div class="acard"><div class="row" style="flex-wrap:nowrap"><div class="av" style="background:${esc(u.color)}33;color:${esc(u.color)};flex:0 0 40px">${esc(ini(u.display_name))}</div>
+    <div class="grow ell"><b class="ell" style="display:block">${esc(u.display_name)}</b><div class="muted ell">${code(u)} · @${esc(u.username)}</div></div>
+    ${u.role==='admin'?'<span class="pill b">แอดมิน</span>':''}${u.suspended?'<span class="pill r">ระงับ</span>':'<span class="pill g">ใช้งาน</span>'}</div>
+    <div class="astat"><div><b style="color:#4ade80">${u.helped}</b><small>ช่วยเพื่อน</small></div><div><b>${u.received}</b><small>ได้รับช่วย</small></div><div><b style="color:#fcd34d">${u.stars}</b><small>ดาว</small></div></div>
+    ${(u.warnings || (u.tags||[]).length || u.honor) ? `<div class="row">${u.warnings?`<span class="pill a">ใบเตือน ${u.warnings}</span>`:''}${(u.tags||[]).map(t=>`<span class="pill b">${esc(t)}</span>`).join('')}${u.honor?'<span class="pill a">🏅 เกียรติยศ</span>':''}</div>` : ''}
+    ${self ? '<div class="muted" style="margin-top:10px">บัญชีของคุณ — จัดการตัวเองไม่ได้</div>' : `<details class="mg"><summary>⚙️ จัดการสมาชิก</summary>
+      <div class="agrid"><button class="btn s ${u.suspended?'ok':'r'}" data-act="u-suspend" data-id="${uid}">${u.suspended?'ปลดระงับ':'ระงับ'}</button>
+      <button class="btn s a" data-act="u-warn" data-id="${uid}">ใบเตือน +1</button>
+      <button class="btn s g" data-act="u-honor" data-id="${uid}" style="grid-column:1/-1">${u.honor?'ถอน':'ให้'}เกียรติยศ 🏅</button></div>
+      <div class="asec" style="margin:12px 0 6px">ป้ายสมาชิก</div>
+      <div class="row">${['รุ่นแรก','VIP','VVIP','ผู้ช่วย'].map(t=>`<button class="btn s ${(u.tags||[]).includes(t)?'':'g'}" data-act="u-tag" data-id="${uid}" data-v="${t}">${t}</button>`).join('')}</div></details>`}</div>`;
+};
+view.a_users = A => {
+  const q = S.uq.trim().toLowerCase();
+  const list = A.users.filter(u => (S.uf==='all' || (S.uf==='active'&&!u.suspended) || (S.uf==='susp'&&u.suspended) || (S.uf==='admin'&&u.role==='admin')) && (!q || (u.display_name+' '+u.username+' '+code(u)).toLowerCase().includes(q)));
+  return `<input id="u-search" value="${esc(S.uq)}" placeholder="🔍 ค้นหาชื่อ / ชื่อผู้ใช้ / รหัส RM…" style="margin-top:12px">
+  <div class="fchips">${UF.map(([k,l]) => `<button class="${S.uf===k?'on':''}" data-act="uf" data-v="${k}">${l}</button>`).join('')}</div>
+  <div class="muted" style="margin:2px 2px 10px">พบ ${list.length} จาก ${A.users.length} คน</div>
+  <div class="grid c2">${list.map(userCard).join('') || '<p class="muted">ไม่พบสมาชิก</p>'}</div>`;
+};
+view.a_reels = A => `<div class="grid c2" style="margin-top:12px">${A.reels.map(r => { const id = esc(r.id), off = r.status === 'หยุดแสดง'; return `<div class="acard"><div class="row" style="flex-wrap:nowrap"><b class="grow ell">${esc(r.title)}</b>${r.pinned?'<span class="pill a">📌</span>':''}<span class="pill ${off?'r':/^ครบ/.test(r.status)?'b':'g'}">${esc(stLabel(r))}</span></div>
+  <div class="muted">${esc(r.profiles?.display_name)} · ${esc(r.platform)}</div>
+  <div class="row" style="margin-top:8px;justify-content:space-between"><span class="muted">ความคืบหน้า</span><b>${r.progress}/${r.goal}</b></div><div class="bar"><i style="width:${pct(r.progress, r.goal)}%"></i></div>
+  <div class="cmp" style="grid-template-columns:1fr"><div><small>ชื่อสินค้าในตะกร้า</small><b style="color:var(--cyan)">${esc((r.basket||[]).join(', ') || '—')}</b></div></div>
+  <a href="${safeUrl(r.link)}" target="_blank" rel="noopener noreferrer nofollow" class="muted">เปิดลิงก์ Reel ↗</a>
+  <div class="agrid">${off ? `<button class="btn s ok" data-act="r-status" data-id="${id}" data-v="เผยแพร่">เปิดแสดง</button>` : `<button class="btn s a" data-act="r-status" data-id="${id}" data-v="หยุดแสดง">พักแสดง</button>`}
+  <button class="btn s g" data-act="r-pin" data-id="${id}" data-v="${r.pinned?'0':'1'}">${r.pinned?'เลิกปักหมุด':'ปักหมุด'}</button>
+  <button class="btn s r" data-act="r-del" data-id="${id}" style="grid-column:1/-1">ลบคลิป</button></div></div>`; }).join('') || '<p class="muted" style="margin-top:12px">ยังไม่มี Reel</p>'}</div>`;
+const HF = ['รอตรวจ','ตรงกัน','ไม่ตรง','ทั้งหมด'];
+view.a_helps = A => {
+  const rm = new Map(A.reels.map(r => [r.id, r]));
+  const norm = t => String(t || '').replace(/[\u200B-\u200D\uFEFF\uFFFC]/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+  const n = k => k === 'ทั้งหมด' ? A.helps.length : A.helps.filter(h => h.status === k).length;
+  const list = S.hf === 'ทั้งหมด' ? A.helps : A.helps.filter(h => h.status === S.hf);
+  const exactN = A.helps.filter(h => { const b = (rm.get(h.reel_id)?.basket || []).join(', '); return h.status === 'รอตรวจ' && norm(b) && norm(b) === norm(h.typed); }).length;
+  const bulk = false && exactN ? `<button class="btn ok w" style="margin-top:10px" data-act="h-ok-all">✅ อนุมัติที่ตรงเป๊ะทั้งหมด (${exactN})</button>` : '';
+  return `<div class="fchips">${HF.map(k => `<button class="${S.hf===k?'on':''}" data-act="hf" data-v="${k}">${k} (${n(k)})</button>`).join('')}</div>` + bulk +
+  (list.map(h => { const real = (rm.get(h.reel_id)?.basket || []).join(', '), same = real && norm(real) === norm(h.typed), id = esc(h.id);
+    return `<div class="acard"><div class="row" style="flex-wrap:nowrap"><b class="grow ell">${esc(h.profiles?.display_name)}</b>${same?'<span class="pill g">ตรงเป๊ะ</span>':''}<span class="pill ${hpill(h.status)}">${esc(h.status)}</span></div>
+    <div class="muted">คลิป ${esc(h.clip_title)} · ${fmt(h.created_at)}</div>
+    ${(() => { const ed = (A.edits || []).filter(e => e.reel_id === h.reel_id && e.helps_at_edit > 0 && String(e.old_basket) !== String(e.new_basket)); return ed.length ? `<div class="warn" style="margin:8px 0 0;font-size:12px">⚠️ เจ้าของแก้ชื่อสินค้าหลังมีคนช่วยแล้ว ${ed.length} ครั้ง • ล่าสุดเปลี่ยนจาก “${esc((ed[0].old_basket || []).join(', '))}” (${fmt(ed[0].created_at)})</div>` : ''; })()}
+    <div class="cmp"><div><small>ที่พิมพ์มา</small><b>“${esc(h.typed)}”</b></div><div><small>ชื่อที่เจ้าของลงไว้</small><b style="color:var(--cyan)">“${esc(real || '—')}”</b></div></div>
+    ${h.status==='รอตรวจ' ? '' : `<div class="muted" style="margin-top:8px">${h.status==='ตรงกัน'?(h.approved_by==='admin'?'✅ แอดมินอนุมัติ':'✅ อนุมัติอัตโนมัติ (ข้อความตรงกัน)'):'❌ ไม่ตรง'}</div>`}
+    <div class="agrid" style="grid-template-columns:${h.status==='รอตรวจ'?'1fr 1fr 1fr':'1fr 1fr'}">${h.status==='รอตรวจ' ? `<button class="btn s ok" data-act="h-ok" data-id="${id}">อนุมัติ</button>` : ''}${h.status==='ไม่ตรง' ? '' : `<button class="btn s g" data-act="h-no" data-id="${id}">ปฏิเสธ</button>`}<button class="btn s r" data-act="h-deduct" data-id="${id}">ตัด 10★</button></div></div>`; }).join('')
+  || '<div class="sub" style="margin-top:10px;text-align:center"><span class="muted">ไม่มีรายการในหมวดนี้</span></div>');
+};
+const RF = ['รอตรวจสอบ','ตรวจสอบแล้ว','พักคลิปแล้ว','ทั้งหมด'];
+view.a_reports = A => {
+  const n = k => k === 'ทั้งหมด' ? A.reports.length : A.reports.filter(r => r.status === k).length;
+  const list = S.rf === 'ทั้งหมด' ? A.reports : A.reports.filter(r => r.status === S.rf);
+  return `<div class="fchips">${RF.map(k => `<button class="${S.rf===k?'on':''}" data-act="rf" data-v="${k}">${k} (${n(k)})</button>`).join('')}</div>` +
+  (list.map(r => { const id = esc(r.id); return `<div class="acard"><div class="row" style="flex-wrap:nowrap"><b class="grow ell">${esc(r.reels?.title || 'คลิปที่ถูกลบ')}</b><span class="pill ${r.status==='รอตรวจสอบ'?'a':r.status==='พักคลิปแล้ว'?'r':'g'}">${esc(r.status)}</span></div>
+    <div class="muted">แจ้งโดย ${esc(r.profiles?.display_name)} · ${fmt(r.created_at)}</div>
+    <div class="cmp" style="grid-template-columns:1fr"><div><small>เหตุผล</small><b>${esc(r.reason)}</b></div></div>
+    <div class="agrid" style="grid-template-columns:1fr 1fr"><button class="btn s ok" data-act="p-ok" data-id="${id}">มีตะกร้าจริง</button><button class="btn s a" data-act="p-pause" data-id="${id}">พักคลิป</button><button class="btn s r" data-act="p-del" data-id="${id}" style="grid-column:1/-1">ลบรายงาน</button></div></div>`; }).join('')
+  || '<div class="sub" style="margin-top:10px;text-align:center"><span class="muted">ไม่มีรายงานในหมวดนี้</span></div>');
+};
+view.a_credits = A => `<div class="grid c2" style="margin-top:12px"><form class="acard" data-form="credit"><b>ปรับเครดิต / ดาว</b>
+  <label for="c-user">ผู้ใช้</label><select id="c-user" required><option value="">— เลือก —</option>${A.users.map(u=>`<option value="${esc(u.id)}">${esc(u.display_name)} (${u.stars} ดาว)</option>`).join('')}</select>
+  <div class="g2"><div><label for="c-kind">ประเภท</label><select id="c-kind"><option>เพิ่ม</option><option>ลด</option></select></div><div><label for="c-amt">จำนวนดาว</label><input id="c-amt" type="number" inputmode="numeric" min="1" max="10000" value="10" required></div></div>
+  <label for="c-why">เหตุผล</label><input id="c-why" maxlength="300" required>
+  <button class="btn w" style="margin-top:14px">ยืนยัน</button></form>
+  <div class="acard"><b>ประวัติล่าสุด</b>${A.credits.map(c=>`<div class="sub" style="margin-top:8px"><div class="row" style="flex-wrap:nowrap"><b class="grow ell">${esc(c.profiles?.display_name)}</b><span class="pill ${c.kind==='เพิ่ม'?'g':'r'}">${esc(c.kind)} ${c.amount}★</span></div><div class="muted">${esc(c.reason)} · ${fmt(c.created_at)}</div></div>`).join('') || '<p class="muted">ยังไม่มีประวัติ</p>'}</div></div>`;
+const SET_FIELDS = [['quota','โควต้าต่อคลิป (คน)'],['per_owner','ช่วยเจ้าของเดิมได้วันละ (ครั้ง)'],['posts_per_day','โพสต์ได้วันละ (คลิป)'],['max_clips_per_user','คลิปค้างสูงสุดต่อคน (1–5)'],['helps_required_for_next_clip','ต้องช่วยกี่งานถึงลงต่อได้ (1–1000)'],['mode200_threshold','เกณฑ์โหมด 200 คน'],['min_len','ชื่อสินค้า สั้นสุด'],['max_len','ชื่อสินค้า ยาวสุด'],['point_per_help','คะแนนต่อการช่วย'],['point_per_verify','คะแนนตรวจผ่าน'],['invite_reward','ดาวที่ได้ต่อเพื่อนที่เชิญ'],['invite_max','เชิญรับดาวได้สูงสุด (คน)'],['skip_pass_cost','ดาวที่ใช้แลกบัตรข้ามการช่วย (0 = ปิด)'],['match_min_chars','อนุมัติอัตโนมัติ: พิมพ์บางส่วนขั้นต่ำ (ตัวอักษร)']];
+const SG = [['📦 โควต้าและการโพสต์',['quota','per_owner','posts_per_day','max_clips_per_user','helps_required_for_next_clip','mode200_threshold']],['✏️ ความยาวชื่อสินค้า',['min_len','max_len','match_min_chars']],['⭐ คะแนน',['point_per_help','point_per_verify']],['🎁 เชิญเพื่อนและแลกดาว',['invite_reward','invite_max','skip_pass_cost']]];
+view.a_settings = () => { const L = Object.fromEntries(SET_FIELDS);
+  return `<form data-form="settings">${SG.map(([t, ks]) => `<div class="asec">${t}</div><div class="acard"><div class="g2">${ks.map(k => `<div><label for="s-${k}">${L[k]}</label><input id="s-${k}" type="number" inputmode="numeric" value="${esc(S.set[k])}" required></div>`).join('')}</div></div>`).join('')}
+  <div class="asec">🔧 ฟีเจอร์</div>
+  ${[['report_on','ระบบรายงานไม่พบตะกร้า'],['ig_follow_on','แลกติดตาม IG'],['mode200_enabled','เปิดโหมด 200 คนเอง'],['auto_approve_exact','อนุมัติอัตโนมัติเมื่อชื่อตรงเป๊ะ']].map(([k,l]) => `<label class="sw"><span>${l}</span><input id="s-${k}" type="checkbox" ${S.set[k]?'checked':''}></label>`).join('')}
+  <button class="btn w" style="margin-top:16px">💾 บันทึกการตั้งค่า</button>
+  <p class="muted" style="text-align:center">เก็บในฐานข้อมูล แก้ได้เฉพาะแอดมิน (ตรวจโดย RLS)</p></form>`; };
+
+/* ----- Modal ----- */
+const bumpBtn = r => {
+  if (r.progress >= r.goal || r.status === 'หยุดแสดง') return '';
+  const left = Math.max(new Date(r.posted_at).getTime(), new Date(r.bumped_at || r.posted_at).getTime()) + 86400000 - Date.now();
+  if (left > 0) { const h = Math.floor(left / 3600000), m = Math.ceil((left % 3600000) / 60000) % 60;
+    return `<button class="btn g w" style="margin-top:8px" disabled>🔄 ดันขึ้นใหม่ได้อีก ${h} ชม. ${m} นาที</button>`; }
+  return `<button class="btn w" style="margin-top:8px" data-act="bump" data-id="${esc(r.id)}">🔄 ดันขึ้นใหม่ (คลิปยังไม่ครบ ${r.progress}/${r.goal})</button>`;
+};
+const COPY_GUIDE_IMG = 'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAwICQsJCAwLCgsODQwOEh4UEhEREiUbHBYeLCcuLisnKyoxN0Y7MTRCNCorPVM+QkhKTk9OLztWXFVMW0ZNTkv/2wBDAQ0ODhIQEiQUFCRLMisyS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0v/wAARCADTAWgDASIAAhEBAxEB/8QAGwAAAQUBAQAAAAAAAAAAAAAAAAEEBQYHAwL/xABEEAACAQMCAwMJBQYDCAMBAAABAgMABBEFEhMhMQZBkRQWIlFTVGGS0RUyUnGBI0Kho7HBNHLhByQzNWJjc/BEovHC/8QAGgEBAQEBAQEBAAAAAAAAAAAAAAECAwQFBv/EAC8RAAIBAgMIAgICAgMBAAAAAAABAgMRExRSEhUhMVFhkaEEQTJC4fAiNDNxgdH/2gAMAwEAAhEDEQA/ANVqA162sricNdhC8YBj3S7PzqfqC1iNnu2xIQAqnbw1bPX11Gk1ZkauRgtrO5KpNDFwW5E+Vg4qekujbJFDAA8hUBEI5AdOtQSSKcRiWRX67OAmfCpO6lie3t1BxcsqhHdSMcx+meVYUYxX+PAdx68swslmkUCRQWwB0/Sq7JfSPchlTblAwIPMDv5fxqfvhLFp+9m3yIDk4A7vCqbPcO10ZQu1Y4gAoPTl9azMzIt2lSNJtLZ+96/ga663FBPbrHdY4LH0stj+NMezbl4Iy49LOfyypp7rQZooQrlSXP7oOeR9dbjxiVcUV9IbVF4cMMRRcdLwVNaeLXTbAeT4WItnCkvlj151EF1gbbLI655Z4CANUnaTQx2T+VcR1Dg84wOfUHC1FCMeKReA9tJrm4ikM8aoCowB8RUJqd/IZCpTmkm055Z5cvCpfTY5DYYkkDq6+htHLHwqravcSSy8LaFbjZJDdTjlUnyMy5E1p80khYNk4Vu/4VOXXK1k/wAhqq6FMZZ5tw9EBlAPwFWi9/wU2Dj9mefq5VafIseRV2tdPt5m8ljibccn/esc/wAqkNGt7WGWS4jVY59uH2ycT0R/7/CmU2YH3ySOR97cIE5fmaeaVKon3cR3jZTz4SgHA9Y5mihFO6XEtkP7e8nuLgcONfJ8/fIOTyHh16Uz1i6eEtCF+8rMpPd+td9MxJcyPauFtlwNmOfQdc1F9op3t5JI1QHMbbWz0z1pL8eJHyEsbqRyowQrcwoNWe25xnP4j/WqLp0rpcQRdwXcTn4/Srza44XIYG4/1qUyQK3qNtYG7e4dY2ucsDun2HryotLW0mu43kijDo26Mi43ZP5V6vUbiyvvZhvYbRCjEc/jzrxBMrSKUmkbYfSAhTIxywfVV2I3vbiasiYuL2YSmK2USMpO8lSMdMcu/r1pdUne2h4hUNkBWA5551wuGSXUUS1fhzAkuSOZGAOWeVJr7mCBX2hwcBh0zg1W+DDImO8lM8mBj08Eg9TzxVi01iygnP3e/wDM1R/KJRJNIQSZZccjnHM/2FXXSDmFfXsGT6zk1inzMRfEadoLazuXUXgQ7FBTdJs58++orgWk+Ekhi4J5MfKwcD/3nUvrSM9yAshX9mOXDVu8+uopZVzw+JIjnmFMCZ/QfpWpQi3do3ZE3xxZWsMNuAx2hYk7sZx1rssk7WgkkUCQHIAHd+VMLiaE2EKuSJyNqNIpAU7h1xyp9KsyWG523yp6WTgf6VQV6e/klnjdUxuXI54I658al9LlaTaWz94c8/nVVuLh5LmN9m1Yos7Q3+bNWDs27SQqzj0iwP5da5x/IwnxJXWI4ZbTh3GOCzYfJxywe+q2sFpEDHbxRFB6rurHrIJtkCuVJkHMAHuPrqAZ1gciSR1HIbuAgBrpKEZc0b4cyU0tLXT7N2gxHGzBnCkyekevOndlPcXG9polRCuVA+Px/KmNhLElrN5SZHjyp5xhc8/UtOtKSR7ZmaUPE+dgUcgPh30tbggRWrX0il4ygJiKg55ZGK66fPI8m1snHLr8KidcnkZpIdoU8RQWz1wpxXfRJme9kVx6K+jjPfg+PMVy/Y534lsf/Bt/4/7VVnttPgnZ4EiZ3OW/3rac/l+dWiT/AATd37M/0qsyBoirvI7DrkQIcd/M12lFS5o68B3o1rapcm4REjuApXlLxPRp/Fezz3CrCimDIBcgjPLny7qj9KmU3SOsruhGM8JQOnrHOndgRLeu1o+yBQAyY55+OallHgif9HnV7p7duGB/xAxU+o461F2V1I20bSqnOFB/pTntFO9tIQqA5Rypz0JWoKxlkSSCP15YnPdz+hrnLmc5PiXu0yY2z13f2FFJZ44ZwMDd/YUV3R1HFVTtTq9tpt7wrlGYTRjmOmOYx/GrXVG7bpZyarCt0rbhGNpEoQY5+sH1VmTsjMnZEams6fDdq8Syl0TKrxh6z+p/0q1tdxXVlYLHGc3KqVkIztBOf64qhta6Jt3EtuHpDbcqT17uVaFZR8Ts/Yi2Jh9GMKzDcyjI/jWVxJF3O2oLLFpYyxZ0X0u/dyqgbC0heMFzs3HB5gd4IrRRat9mtbzSF3KEMx51UoLKCGYmMZ9EjBfl1/1qSjcSVyb7NNugTdncH5Z9RXOK79p72PT7JLiVWZVfGF68xijQ4Vgt41DhjvPIfkab9t+AdJUXKs0RkGdrbe4nr+laV1EvJFUuda0ubEm2RQ7gnEoXJ5+vpVl0jV4bnS7mYQs/CkCbWIPPGQapnkujMcSfAf4pT/8Az8at/YZLQaddpaK+wSDnIwfJx3chWYu5Iu5M6dBIti2ZDiRQyd23I9Xdzqkavma/fPNxIF2/dJ5cjV50u3niQtPcGXeq7R0A5eruquarp1uupuxzvMgY4bA60lG6K1dHns4WEkiyBh6LDB9Y76tt8QLGcnpwznwqB0iBFlnlLquUOADU7qBC6fcEjIETE+FagrIRVkUG57Q6dd7maOVJFUjO8Aj+1SfZXWLWa5jtYEk2iNnXLh846jlVZ8n0huTBlGTgG6XPhtqZ7GxabDrqiyDlmiY54oZRy+ArMZXZlSuy0aVm4uHuIhwoQSmwchjAx+dQfa0nykRO3czKWHXpyzVjS2mOoPIJ9sCN/wAJRgfdHjUd2nsoZpoZJc5IKjBwarV1Y01dFc0jfFcxZVlX0WHxGen8a0C1xwvR6bj/AFqqafaxmW02sEVNvPOT3VbLcgxnByNx5/rSCsIqxStZ1yyhvZ7K4jkLLITkNjJ68qZWOuWMNy/CEp3uEb9qpxnpyxXLX49Ok1m8NwrB9xDnygID3dMUzit9GjuInjEjSCQDCXCknp15VNriZ2uJfrlvKdT4EKmOSMb2fGCx5d/5Vx7Vs0dkTklGABGM45jnT/ULaaeWMW8whJDFiBzbp314121S40tkkOQmCSeprTXBm2ihwI6SlkBK8TaXU5BPrq/aKQ1vGf3uGMn1mqvBZwhJEjP32HNmzjpVs01VSKNVbdiJc/CswjZmYqxD9qtWt9LuIvKEZlljxkdwB/1qsjWNOjuYmjWXcoJRRMP/AH9Kme3a2kl1ardKxO30SJQgHP4g1VmtdEILMTnm3K6UnrzxypJ8bEcuNi8pqEV1pNm6REm55KzDO0FsGpKaOWHTQGcs8fM9+fhTHSEV+zFsLUmLlhGkwxX0udSdvbOlm0M8pldgcs3PrWzZnLIZZg8YLMVLYHIrz58qtvZl90I3ZzvBGe7I6VFRWVvBcgpklQRjdy6ip3QoFgt1G8EmUch+Vc4xaZlLiOe0d0ljppuZFLLG4JA6mqPd63pk6tIVkXcRuIkAz4/lVx7YcI6JILgExFlDBWwfGs/8m0ZscTI5DkbpT1P+WtSfGwk7OxcdC1e3urK8PCd1g2qVYhs5zjnUvpMUhtmkZyFmG5QOW0nryqD7BR2Sx30dorlAy7i7hwevTAFT2mW88ZMk1wZFYeioGAOfqqrjY0uJS9dzLfSB+bqyrt6FuXUfrT3s4WW6ZJQwwCpU+Oaca5p8H2lK7ffYq/I49VOdJt0W8eXeqjhkAZ9QHfWNl3uY2eJYH/wbf+M/0qhT9oNOuG2vHIrx8s7wMDp/ar7IcWbH/tn+lZa0Gku7FlZcvnBulBz16Yrc3YsnYsHZbWLSS8t7WBZCJNzAmQNzAOelT+nnyq+eaFeFFGdpQcsj4/rmql2Vh0uHX7XyMOXYHGJgyj0TzIxV1NrM+oF0n2QoVJjUYzy/jRcUVO5A9rt3GSJmwG3FWYchy6ZqE0zfFNEQrIpG5T1q2dp7OGfgSS/u5AwcHuqJsrSMm2RSFCHOSck8wKxKLbuRx4lts8cNtvTd/YUV6tsbX2ncN3XPXkKK7GztVf1/s3a61crLdRyvtUBTG+3GM/WvPnhZexn8B9aPPCy9jP4D61zxafU9GVraSMH+z7SQQRb3WR/3hVmtbYW1nBbRxSBIQoXJBOB+tRnnhZexn8B9aPO+y9jP4D61MWn1GVraSSvLaS4jkVTMu9GTGV28wRn+NVQ9iJQyASuRghm2ry/jU1532XsZ/AfWjzvsvYz+A+tR1Kb5sq+PXXKJ27P6P9lQJEw3srFuIwGcEYxTjX9MTVrMQSIXXdkqG2npjrTHzvsvYz+A+tHnfZexn8B9auJTta5H8as/1IZv9n+nkn/dZiPjcf6VYNA0iLRbWSG3gkUSNuOXDVw87rL2M/gPrR53WXsZ/AfWoqlNfYy1bSSrxO0Kxrxk2gDKlRnFVjU+yU15dXNysj7pX3hcLy+Gc1J+d1l7GfwH1o87rL2M/gPrVdSm+bKvj1lyiNdF7MHTp5ZHJmEiFQrquFPLn1qyXUXHtZYvxoV8RUL53WXsZ/AfWjztsvZT+A+tFVpr7I/j1n+pDy9grGRyxtZskkn/AHipDQey1rot75Tb28qsFKgmXd1+FOPO2y9lP4D60edtl7KfwH1rKnTX2MtW0kvtb9p6Mg3nOQRy5Aev4VBa12dk1SaFzLKBEhX0gpJyc561287bP2U/gPrS+dtn7KfwH1rTq03wuF8esv1Iiw7HSwXEM8kj5ibJTCkNz/OrjbRiKLaqBBkkKBgDnUL52Wfsp/AfWjzss/ZTeA+tRVKa5Mr+PWfOIw1XsdaajeTXE0Eju5Jys2Acn1Vwt+wlhBOki202VYH/AI9S3nZZ+ym8B9aPOyz9lN4D61Nun1Jlq3LZJdtzSBuG/IEY5d+Pj8KjNZ0uTUrSSASTKJGVvS2kLg5wK5+ddn7KbwH1pfOuz9lN4D61rFp9Rlqy/UgvMiUu44zqvIhgF+tWzSbIWUCR7ACqBS2ACxHecUw867P2U3gPrR512fspvAfWoqlNcmV0Kz5xDtF2fg1qWI3EbuqDHoPtI51Bj/Z/p/XyabP/AJ6nPOqz9lN4D60edVn7KbwH1qOpTf2TLVtI9sbJbLTobOKKRUixjJB789c10nikl5jjLyI2grg1HedVn7KbwH1o86rP2U3gPrWsan1Jlq2kgj2JlXhgSu2D6R2qP71Odn9D+yY+G37Rt+4SMoyBjGBzpfOq09lN4D60edVp7KbwH1rKqUl9mnQrv9R9rdgupWLW7qWUkEgNtz+tVU/7P9PJ/wALNjA/+R/pU7502nspvAfWjzptPZTeA+tV1Kb+yZatpDs7okOhxzLbwSLxSM5kDdP/ANqRMTmFYxxkx+8hUGo7zptPZTeA+tHnTaeym8B9aKtTX2TLVdJGar2Ulv7ye54jgyYwuBywAPX8K6aP2WOn3RnkLTBkK8NlXA5fnT/zotPZTeA+tL50WnspvAfWpiUr3uawK1rbJLvHutzH3lNv8Kp03YOxlcu1tNuJyf2/wqa86LT2U3gPrR50WnspvAfWq6tN/ZnLVtIw0XsjaaRfpdQW8odM4Jl3dRjp+tWLDbnbZIN+OmOXL86jPOi09lN4D60ec9p7KbwH1oqtNfYy1XSN9b0CTVOADLMBFuOX2knOPiPVUXb9i5Y5UkaaQbHzjavP+NTnnPaeym8B9aPOe09lN4D61HUpN3uaVGslbZJa2iESELGI1LEhQAMeFFRPnPa+ym8B9aK1jU+pnLVdJRKcWVo95PwkZU5ZLMcACm9SvZkxrrMBlxtAY5PQHHWvnxV5JM+/Vk4wbR783L1QC+xFIOCxIGc8h8M/GooIxcIB6RO3Hxq73TG1srszTJMrQtsXibm/959apVsQs8RJwA4JP610qwjFpI8/x6s6ibkOm0m7WVImVA7vsA4ik5/Q0zIIJ+HKpo3ls3aBXWOGNBcFjMGPpDnz64rpaS26WRRrhGR4ZMoXAw/PA24yT8c1NiL5MuNOK/yRBIpdlUdWOBXqeF4JnikGHRipx6xUyZ43sIg88abBGFRHBDEEZypGVPrNeNSvFuYdQVpUfbcKYRy6c84/hUcFbmaVWTlyGFtp9xdJviQbSdoLMF3H1DPWm7KyMysCGU4IPdUrprK9qkUrWskSyEmOZtjR+sqad6fLaRONt0DA0z7ldwPR7sjGWzVUE0uJmVaUW+FyClgeFYmcDEqb1we7OP7Vzqdtrm3DW4LpxBZ7EbcBtfceWe44qP1aVZboFdm4IAxRt2T6ycDJrMoJK6ZuFWUpWaGdFFFczuFLSUtAFLSUtQBSikpRQgUUUUAtFFFAFLSUtAFFFFQgtFFFALRRRQBS0lLQBRRRQC0tJS1AFFFFAFLSUtCBS0lLUAUUUUAx4Uns3+U0vCk9m/ymtSoxX0ct3Pm7xen2ZbwpfZv8po4Uns3+U1qWKMUy3cbxen2ZbwpPZv8AKaXgyezf5TWo4oxTK9xvF6fZl3Ck9m/ymjhSezf5TWo4oxTK9xvF6fZl/Ck9m/ymjhSezf5TWoYoxTK9xvF6fZmHCk9m/wApo4Uns3+U1p+KMVMr3G8Xp9mYcKT2b/KaXhSezf5TWnYoxTK9ybxen2ZjwpPZv8po4Uns3+U1p2KMUyvcbxen2ZlwpPZv8po4Uns3+U1puKMUyq6jeL0+zM+FJ7N/lNHCk9m/ymtMxRimV7jeL0+zNOFJ7N/lNHCk9m/ymtLwKMUyvcbxen2ZpwpPZv8AKaOFJ7N/lNaXiimVXUbwen2ZrwpPZv8AKaOFJ+BvlNaVSUyvcbwen2Zvw5PwN8po4cn4G+U1pFJUyq6jeD0+zOOFJ+BvlNHDk/A3ymtHoplV1LvB6TOeHJ+BvlNHDf8AA3ymtFoplV1G8HpM74b/AIG+U0cN/wADfLWiUlMquoz70mecN/wN8po4b/gbwrQ6SmVXUZ96TPuG/wCBvCl4b/gbwNaBSUyvcZ96SgcN/wADeBo4b/gbwNX+iplV1GfekoHDf8DeFLw3/A3hV9ople4zz0lC4b/gbwpeG/4G8DV7oplF1GeekonDf8DeFFXuiple4zz0jmiiq/2j1qfTbqCGFreMSLvLzZxyYDHL869zduJ86EHOWyicmmit42kmkWONerMcAVytL+0vgxtLmKYL12MDio57OPtDYWFxeq8SLiZoM+ix9R+FRumRQXfaprzS4lisraIxSyINqyv6h68ev4VLu50jTi4u74rwWCfVbC2m4M95BHL+FpADTiSeKKIyySIkYGS7HAx+dUCCSGC21WMaadU3SOfLETI5+skZ5fCp3S9Ht9R7PabFNdm4hgO87D6L/wDSc88DpWVJs6ToRgk2/wC/3qTtpqFpfBvJLmKbb12MDinNVOwigvO1YudKiWK0tYzHNJGMLIx7h68f2qZutVeG6eCG1MxRkVjxFXm3Tke6tJ9TlOlaVo9CTophFfTG6jgnteEZAcESq3Qd4FOLu8gs0V7iQIGbavLOT6q1c5uLvY70U0XUrVpEjEh3SclypAzjIGcdcd1eV1aycsFmHIE/dOCB1xy5/pUuNmXQe0UzXVLNig4wDOWABBByvUEHpTa91ZEt4ZrSSJg53HeGxszgnIHL8zS6KoSbtYlaSmJuJHTyQXESag0e8YUlR8R66Y/aksekRyiUNdS+kquueQOD90dPjjvpcKm2TtFR0eqQRJGt1cRmVlDExglQD059w+JpbjVIY7mKFJBkyFXypxgAk4PTlj+tLomxLoSFFMhqtmcfttpLhMMpByenIjv9depdStYlLNJyDMpwpOCvXoO6lxsy6DuimcmqWcbqjTDLAHIBIAPQk9BmnlUjTXMKSlpKECiiihRKKKKgEooooBKKjE7RaU5IS9RjkjAB54645c/716bXdNWOF2ulAmcxoCCDuHUEYyMfGhSRpKYprOnuqstypV1jZTg8w5wniRTB9WlOuPAt3bJZoNzb0bcdoO8A4we7nnljpQE7SU3tNQtr1JGt5C/COHUqQynGeYIz0qJk7TCKK5efT7iB4rbylEkKgumcc8fdOe40BPUlNjqNosM0xnXhwMFlYcwjcuR+PMV51e8On2EtwDEGTGOKSFyTju5/pQo7oqt9n9Uto96XN60s80oVWLs6HdzVV5cjz5j8ufSpoX8D2klzE3EjjLA7e9lOCPEYqAc0VGtLerOsZdRKylhHw/QOOq7s5/XpTyK4Wa1WdQcMm7Hf+VAdaKjoX1CeCKeOW3xMAdpQ/swfUc8zXa1lm8omt52WRo1Vg6rtyDnkR6+VCjuiiigHNQ+s6PLf3UFzBcLFJENuGj3AjcD/AGqYpCQMZOM8hVauZjJwd0V7UdDvfsWHTdNulRBnjPJkFweeBjoMmumk2Or2nCt5jYLYqpUpCrBsY7s1O0VNlXudMaWzssrFppGt6Vby2Wnz2j2rMSjygh0z+XI0svZ2+g7PxaZp12iFmJnkfI3Z6gY6CrNS02EXMTvfh1IDR7HWLEwQOdPWyj5FIlYNj9e/Ndb60uzqJuI4BMMpsPEC7VByRgjrmpqucsscCF5XVEH7zHAq24WMuq3LasVO97Pahc64L1QicR1cytJlolGMqB6+XX41aL63NzayRLsDMMKXXcB+lerW6gvIRNbSrLGSQGU5GR1rtRRSE6sp2v8AQwOnnyOyg4mfJmjJYj720Yptp+hrYyW0iuC0RfccH0geSj4YFP5L+0imMMk8aygqNhPPLHA8acUsjO3K1iKuNH475aQbTd+UEY6rt2lf1ptN2eaW3SEzrtWKWPG3oWJII9WOXhU9S0siqrNfZGxaY0eow3ImzHHGylCM+kccwe4culNYdA9OAzyiVIQ4C4xkE5XP5HPjU5SUsgqkkQDdmy8ZVp1J8nWJfR/eAwW/LHdThNGYaiLtpgSs5kHo88FSNpP6jH+tTFFNlDFm/siLnSZrh7tzOu6Z4zGdn3AjZH599cjoUroiS3IfEkjvlPvb+/4Eev41OUUsgqskQB7OllIaZc+TpGvo/vAbSx/QDlU9S0USsZlOUuYUlLSVTIUUUUKJRRRUAlFFFAV3T+zktrrfl7y2/DWSR1SOMg4ZQoXrjAxnp1Jrzc9nbl5hJDcQZF5LdYkRv3gABkEHljPx5VY6KAqrdk7lYYY4dQVDHbwRkmPOXifcrflzNOLXs3JBrCX8l0shSeSX7mCwdSME/Anl6hVipKFI6w0+W1vNRupZxK926lRtwECjAHxqLXs/qEtnqMF5d20st8hV51iYPnuHXAUDOAKstJQFcl7KRy6XJpzzkwq5a2bLBowSCQ2D6XPOCfXUpc6ajaTLY221AUKxmXMgUnoTk5ODzp/SUKVeDsrPHaGM3UKS8aCRHjiOEEYA6E9TUtpmlGz0prGebjF2dmkAwSWYnP55NSVFQDHh32ekPE27ONk9PXtx1/XFOYIlghSJM7UUAZrpRQDAwXNqzCyCNFISQjnAjY949Y+Fd7W2FujZYvI53SOerH/3urvRQoUUUUA5ql9ty32pagOqfsWKFmYENz+7j97/AEq6V5ZVbGQDg5GR0NaOZWrmSyn1i1QS8G9zFLI80mHjGBiNR627x05n4U002QHWUZpFUvLcCQKx46jnji9wUY5er0auO0E5wM0YGc4GTQFe7MNZS3NxLp8qCAoqLEHyzYJ/aMO4nP54HOnGn39xPrE9tLKDbx7uC+zHG5jIz/0dPjn4VMhQOgAowKAiY4eF2ndw0jcW0JbcxIHpjAA6CojWdRuGkubUgyMt6qopjBIUx5UDIxzcYz8e6rbRgZ6UBTJNSuLGzSDii2ZTcncmxAWQ8s8vSJJ6DGeZp1caveW9zJE8z7phayRgRcowzHeCfVgHrzq0lQeoFGB6qAqsLXMt5DPLKolna5i4hhX9kEJCkcsjp6++nfZ/VpdQmtVM6y5sQ8wXHKTcOvqPXlU/geqgADoAKAqrtBDr5ffFcTPdquNzJcRZAGAP3owOfcMZ61x02Ge1sU1JYhAsMcrSSIxd5s5xleQ5HnzPdVw2jOcDProxQFVh127igmuJH48EE3CJAVi+5AV5qMH0yBy/F8KeaZeLbapeW9/dxi6fggBmC724YztH51Mz2sNxw+Km4RuHUZIGR0OO/HxrrtGc4GaAptxq95eW+oxRXEgXySSVSFUPGVYDGB93kehyfyp4+q3v2skEVxG0QaER7io46MBuYcsnvxjkMc6s2B6qMD1DlQEdoctxNpsVxdzGSSb0sbAoX4AD+9ddPtpLVJI2kzEXJiTqUX1Z7+efy6V3U7vS9fT8qWgPfL1nxo5fHxrmzKgBdgoJwMnGTQrK2drBtpwcHOD6qA6cvj40nL4+NJijFALy+PjR+RNeaKFF3Y6+Neq8dRg9KEPVT1H9KA9UUUVAJRRRQoUlLSUAUlLSUAUlLSUKFFFFQCUUUUAlFFFChRRRQDmvJdVOGYD8zXqs27f5btEi79oMKDJPIczzpOWyrm/j0caezexo3Fj/ABr40cWP8a+NZI2mYmZBJOQqM/KLJbBA9HBwQc+uuUunTq8oRw6xkZJOCBy6juxnn+tc8V9D2L4EH+/o2Dix/jXxo4sf418axtrOaOGWSUlDGPu55n0tp/jnwr1bWE9wImV1EcjqhYt93JwCamK+hrd8bX2/RsXFj/GvjRxU/GvjWPDTbpk3phlLYBDdfS25/LNPOzUZj7T2cTsr4kIODkdDVVV3tYzL4EVFtTvY1biJ+NfGjiJ+NfGor7QG5j5IhRhJwiOrFDg5GOX8eldbW7hum2cKNG2ZIOM7u8Ad+K63PnuDRI0tcrb/AA8X+Qf0rrVMBRRRQBRRRQBXiY4icj1GvdeZF3Iy+sYoDwBjkO6vQFeUO5QfXXugKP2x1uCa9l0uS1WTyTbJlpmR2Yrn0cA9xxk95/WuidobfS4re30q1RVuIEu3kuZGyzS5IyQCSxwck8hirBNoNtNqV5fMW4t3bC2bkPRAzzHx5/wptF2UskubCZnlk8it0gRGxtfbnazesjJxQDCfti5srO4traJfKLczsszt6IU4I9FTgZ/eOBzFdpe1Ly2tjNZQ24N5b8dEuJSpP/QMA8/icCukHY6zgNiUnnzaQtD1H7RGJOG/UmvB7GwKlgIL64heytjbI4RGJU9TzBwfiKA8jtRPePZx6bZKz3Nl5YOO5A2/hyoPPuycDnU1o+oJq2lWt/GhRbiMOFbque6mlh2dtrCS3eKWU8Cy8iUMRzTOcn4080jTo9J0y2sYXZ47dNis3Uj40KOiK8dJl+Kn+1dDXMc5c/hGPGgOlFFFQCUUUUKFJS0lAFJS0lAFJS0lChRRRUAlFFFAJRRRQoUUUUA5qi9stE1K+1pbiytmlQRKNwI6gn11eqKSjtKxqjWlRltRMwfRO0DIUWw4aEEbU2gc8ZPXryFJHofaCO2a3FieGwIPNc4PXv8AhVo7a308C28EMjRrICzFTgnGOVVPymf20vzmvPJKLsfaoYtamp8F/wCfyOJdH155pH+zdyOipscq3IdO/rnn+tINH7RrEsa2O1UIIxt5YOR3+uuHlM/t5fnNHlM/t5PnNS6O2DU7eH/9O32N2i2qosMBW3L930eecDn0zXfQNA1a01y1urmzdY0kLO2Qccj8aZeUz+3l+c0eUz+2k+c0ur3Do1XFxuuPb+TRIraGGdpkjn3HdgEHC7jlsDuyaEtYI5EkSGbdGuByPPrzPrPM+NZ35TP7aT5zR5TP7eX5zXTFXQ8W7Z6jUIFKwxqRghQD4V0rK/KZ/bSfOaPKJ/bSfOauL2M7qlq9GqUVlflE/tpPnNHlE/tpPnNMXsN1S1ejVKKyvyif20nzmjyif20nzmmL2G6pavRqlFZX5RP7aT5zR5RP7aT5zTF7DdUtXo08jYxP7p/ga9ist8on9tJ85o8on9tJ85pi9huqWr0anRWWeUT+2l+c0eUT+2l+c0xew3VLV6NTpKy3yif20vzmjyif20nzmmL2G6pavRqVFZb5RP7aT5zR5RP7aT5zTF7F3XLV6NQc46cyegoRdo+J5k1l3lE3tpPnNHlE/tpPnNMXsN1y1ejUqKy3yif20nzml8on9tJ85qYvYbrlq9GoUVl/lE/tpPnNJ5RP7aT5zTF7DdctXo1Gisv8on9tJ85o8on9tJ85pi9huuWr0afRWYeUTe2k+c0nlE3tpPnNMXsXdctXo0+krMfKJvbSfOaPKJvbSfOaYvYbrlq9GnUVmPlE3tpPnNHlE3tpPnNMUbslq9Gm0VmXlE3tpPnNHlE3tpPnNMXsN2S1ejTKKzPyib20nzmjyib20nzmmIN2S1ejTKKzPyib20nzmipi9huyWr0arRRUBrfaePSbzybySad1j4rlOirnFd20uZ8mEJVHaKI3t3/iLT/I39RTXshZ295ezpcxLKqx5AYdDmmmta4uuGGaO3khSMFQXOQ35V50TWV0W4kma3kn3oRhDzGOZNee627n3Y06i+HsLn/Jd/sLTPcofCj7C0z3KLwpdK1aHUtMW/UGKLnu3n7uOvOvNprlndzxxJxkM2TC0sTIsvf6JI58udehJM+JKdWLs2/Iv2FpnuUXhR9haZ7lF4V3g1C2uL24s4pN09ttMi46ZGR+dND2hsf2Wzjy8SPijhQO+FyRk4HLmDSyJi1NT8nT7C0z3KLwo+wtM9yi8K9jWLJkhdJg6TxvIjKCQVT73hnpRFq1nNZ2t3FMHgumVImAPMnoPhSyGLU1PyePsLTPcovCj7C0z3KLwrxLr9jFM6MZdkb7JJhExiRvUWxgf2qUpZDFqan5I77C0z3KLwo+wtM9yi8K66vqCaVplzfSIzpboXKr1OKjrnVZ7rR4HispklvoiVXiAGMEciSO/mOgpZDFqan5Hn2FpnuUXhR9haZ7lF4Vx7P3KLpED3ExWV2YMJ5gzbwSCM9M8ugqV3qCRuGVGSM9BSyGLU1PyMPsLTPcovCj7C0z3KLwp6s8TLuWVCuN2Qwxj10scscqB45EdTyDKwINLIYtTU/Ix+wtM9yi8KPsLTPcovCnrzRRuqPIis/3QWAJ/KiSeKN1SSVEZ/uqzAE/lSyGLU1PyMvsLTPcovCj7C0z3KHwp+ZEXdl1G0ZbJ6fnXkTRFC4kQqBkncMAeulkMWpqfkZfYWme5Q+FH2FpnuUPhT5JY5EV43VlboVOQajJtbEHaG30h7aTNzG0kcwYbTtHMY65+tLIYtTU/J1+wtM9yh8KPsLTPcovCpA9KiYdTu5dSmh8mjFpGQxuDIMFMHmPWc4+HX1Ushi1NT8nb7C0z3KLwo+wtM9yi8Kc3bzGBvI2iacjcgkPJh+n9aYabqU8+jvPKImuleWNVHoiRkZgMDmeeOlLIYtTU/J2+wtM9yi8KPsLTPcovCjSb64uot97bras2AkZcFicZbI7ufd1rrb6lBMLli3CW3mMLNIQASAD/elkMWpqfk5fYWme5ReFH2FpnuUXhT2SeKJA8kqIjdGZgAa9cRN+zeu7GcZ549dLIYtTU/Iw+wtM9yi8KPsLTPcovCn4dSm8MCuM7s8sVFWmp3U19PHLbRxWsLHM5kGGXA2kfn4Ushi1NT8nb7C0z3KLwo+wtM9yi8KcXjTmIiyaHj8iBJ0xnmeVMLLVZ5+z8d5sje8dG2xjkHZSRyHXu6Ushi1NT8nf7C0z3KLwo+wtM9yi8K9aXeT3UIa7hS2kc+hFvBbAAzn9c8q922pW9xDJKWESJM8JMhAyysQf6Ushi1NT8nL7C0z3KLwo+wtM9yi8KeyTxRBTJKiBjhdzAZ/Kl4iBiu9dyjJGeYHrpZDFqan5GP2FpnuUXhR9haZ7lF4VIAhgCCCDzBFLSyGLU1PyR32FpnuUXhR9haZ7lF4VI0Ushi1NT8lD7XWlvZ30KW0SxKYskKOpyaK7duP+ZQf+H+5oryz/ACZ+k+I26EWy7VQe19ybXXrp0l4chsVCEHBJ3jl4Zq/VXteurSHUreO70pblH2K07KDt3NtAHLnzPw616ZK6Pz1Coqc7yVyjw3cl1aJxpN7q7cuQ2jA7h0769RlVdt7ogaKRAWOBkqQKn+2FlbWc1sLW3jhDKxYIoGeYrx2QtLe8vZ0uYI5lWPIDqCAc159l7Vj7uNHLYiXD+R32etJL/sJNawkCSZZUXPTJJ609N1fXV3aNBBeQpD6VxDLAuxQFPJSRksTgDacYqUsrqyisYnRUtIGcxojgJ6W4jAHxIrs2oWiXa2jXMIuW6RFxuP6V6UrKx+eqT25uXUr+mWGp2d1Y30wjczO4uI0jIdRId3pHPPaQB06Vy0dbnSprWSexu3HkIjIii3ENxGOD6uRFWby618r8k8pi8pxnhbxu8KJL61i4vFuI04OOIWYALnpn86pgrS6beAxSNbsrSreyNGMHhmTBVSR3/wB80g0q8tBpIt4WNvJLBJcx98MirzbHqPf8RnvNWO41OxtZRFcXcEUhAIV5ACQfhXuS+tYrlLaS4iSeT7sbOAx/IUBWiuoWumNpcEV0l2kknDkSFXimDMSGZmBAHPmOvI1YY7e8W6EjXqtBj/g8EDu/Fn1866zXltA0gmnjjMaCR9zAbVJIBPw5GvFxqNna8Pyi6hi4v3N8gG78qAju2oJ7KaoAMnyduVRGoQwara6LqEMNxKjqiycGMtw0HpHl3HcAP/yrTdX1pamNbq4hiMpwgkcDd+WacAADkAKAo/kd2lrZRT2MjR+RSK6i34jFiTtU/h6g5+FOZLW9jiuo5rOebj6TEhKHJ4iBsqfiSRVwrldStBbSyxxNM6KWWNern1CgKTFp91DZ3JtrKZitnEmJICu5+KWbCnrgGu62E7rcOLC5eM3ELqUHAfcEw7qv51Y9G1CTUoHlkhSIKxTAckhgcMCCBgg1I0BR9W0q+minihsXi/3EGIKRJ6YLEhmIyW6YweROeddNV0i+vL3USIXKG2Dq5UHeeHgIvx3An9fXV0ooCm6pa3rR6ojWM03lNrAUZRnLr3Ed/M9Pga8CxuYrHUPJbSYqfJkj4kBBbax3sEPqzmrrXOdzFDJIsbSMqkhF6sQOgoCorYzsssgsLpovLFkQx/sHX9moZ1XuywNe3lRe1nZ6yEIilt7aVnjDbuHlcAFu88jU7oupS6lHI8lusPDbYy7yWVx1UggYxy8akcDOcDProBnrUElzo97DCSJZIHVMdclTiq3peizeUxPc2pjhubebfGFC8PJQorEd/In4Vca4w3MU8k0cb7ngbZIMfdOAceBFAVrs1Bfpd6f5XZSwLBp/B3Mc5bcuc+r7vTrTWWzvjaR2406Uzw6mZI5dxC7DLvJ/LH6f0q6VEJ2htridYLWKaWV1cp6O1W2jPU9M92aAhpLOcAXcljcCddW4oVFLER+juPLqPRoe0u5iJBZzCKbUpHOUAkVCoAOGBxzHf3D41YdI1JtRW5Elu1vJby8NkLbv3Qw/XDD9aLnV7e1M4mWQcF0TIXO8sMjFAVq3s7y2ttLhurR3jia4E2234no8T0VC9wI6fpXqzs7+3m0eQafK0kNiyzsXxnlgL6tw/vVm0zUodTikkgWRVjkMZ3rjJAHT4c6e0BXPIrk9hEtBE4uVs1UxY9IkAZX9cYpjbaHODcrNbEJcWTttRQu19+5FOP3h9e6rjRQFa7Ox3v2hHJd2cluE0+KEFjnJHM59R59OfSo+K0vha6TENNk8otLs5kLELs3bjnl0Oevwq60UBTo7WaHyC8ksboTJqM8jqiFmWJi55gfEik8gvJha5tZVjmurlmJjG5A75UkEHA6kj4Y+FXKoDV9Sng1eKCKSZEVAzRpBvMx3Dkp9fcc9OdAQqWd7HZaZDd2cjolnIkwFvxCWzhU/6Rjn+ldfItQiliZdPleQaSYp23/fcqgwO4sMEf8AozcxUDa6nPca9JEJJuCshTgcDBXC82Zu5c9O8kigJTSI3h0myjkUq6QIrKeoIUZFO6KKAKKKKApPbj/mUH/h/uaKO3H/ADKD/wAP9zRXkn+TP1Hw/wDXiXaobtY2zSOJtJEdxA7Y9QkUmpmkPPrXrPy5m/aBm+2Z1E0ssLIksfEz6O/JIH8K86bI1uk10kjRvA0TBgxAwZFDZ9YwT1qa7df4i0/yN/UVFaI9mrXEd/NJFHIg2tHkEEEHurzv/kPuwi5fAsl/bks8aXfZ6G8lBmmW9HCkbLEIbkYxnuxj9KcX91ps2rjT1lgg2XKT3DscNJKMFVX48hk9w5d/J1Z65o1nbJBHdOyrk5dWYkk5JJx6zXbzl0n3j+W30rttLqfIy9XS/BD7o9gsuX2p9q8Xbj08cTdv/wAvD5Z/SvV9bRXvZvVr+SMSPK80sRIzgAbFI/RR41KntJpJz/vByRjOxs/0rxba9otrbx28M22KJQqrsY4A/Sm0uoy9XS/Aw1ecWV9fTR34iujFGYrd4AeMQDhQTzbJOPRwRmuOoOgh1i1mXGpXU6Nbpj0m9FNhX4KQfywamT2l0kkE3HMdP2bcv4Uecuk5B8o5jv4bfSm0uoy9XS/AwvLaLULXXruaMShN8cO4Zxw4yM/Mz0w1NgsrBrqGx36bHGWnj38cc/RX1EZ7snmOXKpm217RbWHhQzlU3M2NjHJJJJ6esmup7S6ScZuOn/bb6U2l1GXq6X4IkzW1sZm1GIwpcaXEkEUvpHkG3Rj1tkry6nlSQzSQskGq39zZzQ20At1jY/tG2+kcfvndyxz/AI1LntLpJxm4zj/tt9KPOXSfeOn/AG2+lNpdRl6ul+CLl8qknaTy27TdqhttqvhRERzAH9+oqY7PtL5NcxSySS8C6kiRpDltoPLJ7/zrn5zaT7x/Lb6Uec2le8n5G+lNpdRl6ul+CvXN1LDa3cEZlVvtWTiKoILh9+wZHPBYL/8Ahr1Ib210+5aW4nR7G9gwqMzDDCPcvrI9JsVP+c2k+8fy2+lHnNpPvH8tvpTaXUZerpfghvtSTiG6ZrhYRq2GU5ysfCIwR6twzj+9NXvrufTNMgRp3lMssMiEsC8vVQSO7Gfh6+lWPzl0n3j+W30o85tJ94/lt9KbS6jL1dL8FeuJ78Wlta8SWTF5PbqoZvTYfcBPXaPS6nuGasXZlpvI54rh2doLmSJSxJ9EHkMnmR+dJ5zaT7x/Lb6Uec2le8H5G+lNpdRl6ul+CBvLuS3i1WFDLGRqatJtBy0bAAYI582A6c8V4m8uttL1ESzzRSWUkEqqjltpYDcuepHPOPXVh85tJ94/lt9KPObSfeP5bfSm0uoy9XS/BA6hqM1wt6yPdxxvqMUYRQRIF2YIA7ssD/U15e4lK31+pubZ4tThDxc8nKxKwIHXv6df1qwec2k+8fy2+lHnNpPvH8tvpTaXUZerpfgTs3dPeLqEjGUA3b7Fk6ouF5fDv5VAaPJNc6zpksnEKPLOJFd3JV1UkbskgnB6gDHMYqwec2lD/wCR/Lb6Uec2k+8fy2+lNpdRl6ul+Cv6vdG2GtoklxFdC8SWLhjG/MaAZP6H9QOte9VvJpIdYuVuZ4EtrmMiNiULfswNnXlzOeX51O+c2k+8fy2+lHnNpPvH8tvpTaXUZerpfgrTTTpYyNHcyXQe+WBpkZsz4hG0ZHdv5cv176cN5dDpt3xS0qWN0OJHxXA2GNCwBByQCTjnyqd85tJ94/lt9KPObSfeP5bfSm0uoy9XS/BEvHK/ZE6i1xctdQws0L8VhjDHacDqSMZznNPLi4uF7VafG5ljEgkG1STHIgUkH4MDjI/KnXnNpWMeUfy2+lHnNpXvH/0b6U2l1GXq6X4IvtRcS21+wlScxSWzm3aCRgUkXHPAIA69T6v0pxdK4tNM1FZpjdSzW4ch227WIDDb0xzJ6U885tJP/wAj+W30o85tK94PyN9KbS6jL1dL8ESpuFmN2Z5jKNX8nBLHBizggjpj9PVXmzFwfIZ2ubji3N9PbyNvPOMCQDl0yNoIIAqY85tJ94/lt9KPObSveP5bfSm0uoy9XS/BB6Zezvc6fYGe5zHcXSNKQcEDcFGT1I5H1Cnmj22+/wBQsXubuaG3WMcVpGVmOTuU8/8ApHMAHn6qkPObSfeP5bfSjzm0n3j+W30ptLqMvV0vwcuzU5msb0o0zQLcuLfeSWCYBABPPqT1qD0Od21Oxu7hn4JtppH3M52Ou3OQSckAnmOuTy5VYfObSveP/o30o85tJ94/lt9KbS6jL1dL8HZtd05YmkNxhFtxck7G/wCGTgHp/DrUirBlDA5BGRUR5y6T7x/Lb6UvnPpXvJ+RvpTaXUZerpfggO3H/MoP/D/c0U27VX9vqF7FJavvRY9pOCOeT66K80/yP0fxIuNCKZf6KKK9Z+WKd26/49p/kb+oqr0UV5an5M/TfB/14/37CiiiuZ7AooooAooooAooooAooooAooooAooooAooooAooooAooooAooooAooooAooooAooooAooooAooooAooooAooooAooooAooooAooooD/9k=';
+const copyGuide = () => `<details class="sub" style="margin-top:10px"><summary style="cursor:pointer;font-weight:600">📋 วิธีคัดลอกชื่อสินค้าจาก Shopee (แนะนำ ไม่ต้องพิมพ์เอง)</summary>
+  <img src="${COPY_GUIDE_IMG}" alt="ตัวอย่าง: แตะค้างที่ชื่อสินค้าแล้วกดคัดลอก" style="width:100%;border-radius:10px;margin-top:10px">
+  <ol style="margin:10px 0 0;padding-left:20px;line-height:1.8">
+    <li>เปิดสินค้าในแอป Shopee ที่ใส่ไว้ในตะกร้าของคลิป</li>
+    <li><b>แตะค้างที่ชื่อสินค้า</b> (บรรทัดใต้ราคา ในกรอบแดงตามรูป) จนขึ้นปุ่ม <b>“คัดลอก”</b></li>
+    <li>กด <b>คัดลอก</b> แล้วกลับมาที่แอปนี้</li>
+    <li>แตะที่ช่องชื่อสินค้า แล้วเลือก <b>วาง</b></li>
+  </ol>
+  <p class="muted" style="margin:8px 0 0">⚠️ ห้ามตั้งชื่อเอง เพราะระบบเทียบชื่อกับที่ Shopee แสดง ถ้าตั้งเองคนที่มาช่วยจะตรวจไม่เจอและต้องรอแอดมิน • ชื่อที่ถูกตัดด้วย “…” ในหน้าสินค้า ตอนคัดลอกจะได้ชื่อเต็มเอง</p></details>`;
+view.modal = () => {
+  const m = S.modal; if (!m) return '';
+  let body = '';
+  if (m.t === 'help') {
+    const r = S.feed.find(x => x.id === m.id); if (!r) return '';
+    const st = m.step || 1;
+    body = `<h3>ช่วยเพื่อน</h3><p class="muted">${esc(r.title)} • เจ้าของ ${esc(r.owner_name)}</p>
+    <div class="steps2"><span class="${st===1?'on':''}">1 ดูคลิป</span>→<span class="${st===2?'on':''}">2 พิมพ์ชื่อสินค้า</span></div>
+    <div class="sub" style="margin-top:8px"><b>${esc(r.title)}</b><div class="muted">เจ้าของ: ${esc(r.owner_name)} • ${esc(r.platform)}</div></div>
+    ${st===1?`<p class="sub muted" style="margin-top:10px">ขั้นตอนที่ 1 — กดเปิดคลิปแล้วดูตะกร้าสินค้า แล้วค่อยกลับมาใส่ชื่อสินค้าในขั้นที่ 2</p>
+      <button class="btn w" style="margin-top:10px" data-act="help-open" data-id="${esc(r.id)}">เปิด Reel ↗</button>
+      <button class="btn g w" style="margin-top:8px" data-act="help-step" data-v="2">ไปใส่ชื่อสินค้า →</button>`
+    :`<form data-form="help" data-id="${esc(r.id)}"><label for="h-typed">ขั้นตอนที่ 2 — พิมพ์ชื่อสินค้าที่เห็นในตะกร้า</label>
+      <input id="h-typed" maxlength="${esc(S.set.max_len)}" placeholder="เช่น ชั้นวางของล้อเลื่อน" required autofocus>
+      <p class="muted">จะได้ +${S.set.point_per_help} คะแนน/ดาวทันที ถ้าชื่อตรงกับที่เจ้าของลงไว้ ${S.set.auto_approve_exact ? '(พิมพ์บางส่วนก็ได้ ขอแค่ ' + (S.set.match_min_chars || 8) + ' ตัวอักษรขึ้นไปและเป็นส่วนหนึ่งของชื่อจริง)' : '(แอดมินตรวจ)'}<br>💡 ชื่อไม่ตรง? แตะค้างที่ชื่อสินค้าใน Shopee → คัดลอก → วางที่นี่</p>
+      ${S.err?`<div class="err">${esc(S.err)}</div>`:''}<button class="btn w" style="margin-top:12px">ยืนยันว่าช่วยแล้ว +${S.set.point_per_help}</button>
+      <button type="button" class="btn g w" style="margin-top:8px" data-act="help-step" data-v="1">← กลับไปดูคลิป</button></form>`}`;
+  } else if (m.t === 'detail') {
+    const r = S.feed.find(x => x.id === m.id) || S.myReels.find(x => x.id === m.id); if (!r) return '';
+    body = `<h3>รายละเอียดคลิป</h3>${coverHtml({ title: r.title, cover: r.cover, owner_name: r.owner_name || S.me.display_name })}
+    <h3 style="margin-top:12px;font-size:17px">${esc(r.title)}</h3><p class="muted">เจ้าของ: <b style="color:#fff">${esc(r.owner_name || S.me.display_name)}</b> • ${esc(r.platform)}</p>
+    <div class="row" style="margin-top:8px;justify-content:space-between"><span class="muted">ความคืบหน้า</span><b>${r.progress}/${r.goal} คน</b></div><div class="bar"><i style="width:${pct(r.progress, r.goal)}%"></i></div>
+    <p style="margin:14px 0 4px;font-weight:600;font-size:13px">มาจากลิงก์ไหน</p><a class="sub" style="display:block" href="${safeUrl(r.link)}" target="_blank" rel="noopener noreferrer nofollow">${esc(r.link)}</a>`;
+  } else if (m.t === 'add') {
+    const st = m.step || 1;
+    body = `<h3>เพิ่ม Reel ด้วยลิงก์</h3><p class="muted">วางลิงก์ก่อน คลิปถึงจะขึ้นในฟีด</p>
+    <div class="steps2"><span class="${st===1?'on':''}">1 วางลิงก์</span>→<span class="${st===2?'on':''}">2 ใส่รายละเอียด</span></div>
+    ${st===1?`<form data-form="addnext"><label for="a-link">ขั้นตอนที่ 1 — วางลิงก์ Reel จาก Facebook หรือ Instagram</label>
+      <input id="a-link" inputmode="url" maxlength="500" value="${esc(m.link||'')}" placeholder="https://www.facebook.com/reel/… หรือ https://www.instagram.com/reel/…" required>
+      <button type="button" class="btn g" style="margin-top:8px" data-act="paste">วางลิงก์จากคลิปบอร์ด</button>
+      ${S.err?`<div class="err">${esc(S.err)}</div>`:''}<button class="btn w" style="margin-top:12px">ต่อไป: ใส่รายละเอียด →</button></form>`
+    :`<div class="sub" style="margin-top:8px"><span class="muted">ลิงก์ที่วางไว้</span><div style="word-break:break-all;font-weight:600">${esc(m.link)}</div><div class="muted">แพลตฟอร์ม: ${esc(m.platform)}</div></div>
+    <form data-form="add"><label for="a-title">ชื่อคลิป <span style="color:#f87171">* ต้องกรอก</span></label><input id="a-title" maxlength="200" value="${esc(m.title||'')}" required>
+      <label for="a-basket">ชื่อสินค้าในตะกร้า จาก Shopee <span style="color:#f87171">* บังคับใส่ • คัดลอกมาวาง</span></label>${copyGuide()}<input id="a-basket" style="margin-top:8px" maxlength="${esc(S.set.max_len)}" placeholder="วางชื่อสินค้าที่คัดลอกจาก Shopee" required>
+      <label>ปกคลิป (ดึงอัตโนมัติจากลิงก์)</label>
+      <div style="position:relative;margin-top:6px">${coverHtml({ title: m.title || 'คลิปใหม่', cover: m.cover, owner_name: S.me.display_name })}
+        <button type="button" class="x" style="right:10px;top:10px" data-act="cover-refresh" aria-label="รีเฟรชรูปปก" ${m.coverState==='loading'?'disabled':''}>${m.coverState==='loading'?'⏳':'↻'}</button></div>
+      <p class="muted" style="margin:6px 0 0">${m.coverState==='loading'?'กำลังดึงรูปปกจากลิงก์…':m.coverState==='ok'?'ดึงรูปปกสำเร็จ • กด ↻ เพื่อลองดึงใหม่':'ดึงปกไม่ได้ (Facebook/Instagram มักบล็อก) — กด ↻ ลองใหม่ หรือวางลิงก์รูป https ด้านล่าง ไม่ใส่ก็ได้ ระบบใช้ปกไล่สีให้'}</p>
+      <label for="a-cover">ลิงก์รูปปก (แก้เองได้ ต้องเป็น https)</label><input id="a-cover" inputmode="url" maxlength="1000" value="${esc(m.cover||'')}" placeholder="https://…">
+      <label class="row"><input id="a-ok" type="checkbox" checked required> มีตะกร้าแล้วหรือยัง</label>
+      ${S.err?`<div class="err">${esc(S.err)}</div>`:''}
+      <div class="grid c2" style="margin-top:12px"><button type="button" class="btn g" data-act="add-back">← ย้อนกลับไปแก้ลิงก์</button><button class="btn">โพสต์ขอช่วยเลย</button></div></form>`}`;
+  } else if (m.t === 'edit') {
+    const r = S.myReels.find(x => x.id === m.id); if (!r) return '';
+    body = `<h3>แก้ไขคลิป</h3><p class="muted">แก้ได้เฉพาะคลิปของคุณ ความคืบหน้าและคนที่ช่วยแล้วจะไม่หาย<br>⚠️ หลังมีคนช่วยแล้ว แก้ชื่อสินค้าได้ไม่เกิน 2 ครั้ง และระบบจะบันทึกประวัติการแก้ไขให้แอดมินเห็น</p>
+    <form data-form="edit" data-id="${esc(r.id)}"><label for="e-title">ชื่อคลิป</label><input id="e-title" maxlength="200" value="${esc(r.title)}" required>
+      <label for="e-link">ลิงก์ Reel</label><input id="e-link" inputmode="url" maxlength="500" value="${esc(r.link)}" required>
+      <label for="e-basket">ชื่อสินค้าในตะกร้า จาก Shopee</label>${copyGuide()}<input id="e-basket" style="margin-top:8px" maxlength="${esc(S.set.max_len)}" value="${esc((r.basket||[]).join(', '))}" required>
+      <label for="e-cover">ลิงก์รูปปก (https, ไม่ใส่ก็ได้)</label><input id="e-cover" inputmode="url" maxlength="1000" value="${esc(r.cover||'')}" placeholder="https://…">
+      ${S.err?`<div class="err">${esc(S.err)}</div>`:''}
+      <div class="grid c2" style="margin-top:12px"><button type="button" class="btn g" data-act="close">ยกเลิก</button><button class="btn">บันทึก</button></div></form>`;
+  } else if (m.t === 'report') {
+    body = `<h3>แจ้งไม่พบตะกร้า</h3><form data-form="report" data-id="${esc(m.id)}"><label for="p-why">รายละเอียด</label><textarea id="p-why" rows="3" maxlength="500" required>ไม่พบตะกร้าในคลิป</textarea>
+    ${S.err?`<div class="err">${esc(S.err)}</div>`:''}<button class="btn w" style="margin-top:12px">ส่งรายงาน</button></form>`;
+  } else if (m.t === 'me') {
+    const u = S.me;
+    body = `<h3>โปรไฟล์ของฉัน</h3><div class="row" style="margin-top:10px"><div class="av" style="width:56px;height:56px;background:${esc(u.color)}33;color:${esc(u.color)}">${esc(ini(u.display_name))}</div>
+    <div class="muted" style="font-size:16px">@${esc(u.username)}${u.role==='admin'?' • แอดมิน':''}</div></div>
+    <div class="sub" style="margin-top:14px;line-height:2.1"><div>ชื่อ: <b>${esc(u.display_name)}</b></div><div>รหัส: <b>${code(u)}</b></div><div>ชื่อเฟส: <b>${esc(u.username)}</b></div><div>กลุ่ม: <b>${u.group_no ?? '-'}</b></div></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;text-align:center"><div class="sub"><b style="color:#4ade80;font-size:22px">${u.helped}</b><div class="muted">ช่วยเพื่อน</div></div><div class="sub"><b style="font-size:22px">${u.received}</b><div class="muted">ได้รับช่วย</div></div><div class="sub"><b style="color:#fcd34d;font-size:22px">${u.stars} ★</b><div class="muted">ดาว</div></div></div>
+    <h4 style="margin:18px 0 8px">ประวัติคลิปของฉัน (${S.myReels.length})</h4>
+    <div style="max-height:34vh;overflow:auto">${S.myReels.map(r => `<div class="sub" style="margin-bottom:10px"><b>${esc(r.title)}</b>
+      <div class="muted">${esc(r.platform)} • ${r.progress}/${r.goal} คน • ${esc(stLabel(r))}</div>
+      <div class="muted">ตะกร้า: ${esc((r.basket||[]).join(', '))}</div>
+      <div class="row" style="margin-top:6px"><a class="grow" href="${safeUrl(r.link)}" rel="noopener noreferrer nofollow">เปิดลิงก์ Reel ↗</a><button class="btn g s" data-act="edit" data-id="${esc(r.id)}">✏️ แก้ไข</button></div>${bumpBtn(r)}</div>`).join('') || '<p class="muted" style="text-align:center;padding:16px">ยังไม่มีคลิป</p>'}</div>
+    <button class="btn r w" style="margin-top:12px" data-act="logout">ออกจากระบบ</button>`;
+  }
+  return `<div class="mask" data-act="mask"><div class="modal" role="dialog" aria-modal="true"><button class="x" data-act="close" aria-label="ปิด">✕</button>${body}</div></div>`;
+};
+
+view.rewards = () => {
+  const u = S.me, set = S.set, inv = S.invites || [], okN = inv.filter(x => x.rewarded).length;
+  const cost = set.skip_pass_cost || 0, reward = set.invite_reward || 0, can = u.stars >= cost && cost > 0;
+  return `<div class="card" style="margin-top:14px"><b>👥 เชิญเพื่อน รับดาว</b>
+    <p class="muted" style="margin:6px 0 10px">ส่งลิงก์นี้ให้เพื่อน เมื่อเพื่อนสมัครและช่วยงานแรกผ่าน คุณได้ <b style="color:#fcd34d">+${reward} ★</b> ต่อคน (รับได้สูงสุด ${set.invite_max || 0} คน)</p>
+    <input id="inv-link" readonly value="${esc(inviteLink())}" onfocus="this.select()">
+    <div class="row" style="margin-top:8px"><button class="btn grow" data-act="copy-invite">📋 คัดลอกลิงก์</button>${navigator.share ? '<button class="btn g" data-act="share-invite">📤 แชร์</button>' : ''}</div>
+    <div class="grid c3 hs" style="margin-top:12px"><div class="sub"><div class="muted">เชิญแล้ว</div><b>${inv.length} คน</b></div><div class="sub"><div class="muted">ได้ดาวแล้ว</div><b style="color:#4ade80">${okN} คน</b></div><div class="sub"><div class="muted">ดาวที่ได้</div><b style="color:#fcd34d">${Math.min(okN, set.invite_max || 0) * reward} ★</b></div></div>
+    ${inv.map(x => `<div class="sub row" style="margin-top:8px"><div class="grow"><b>${esc(x.display_name)}</b><div class="muted">สมัครเมื่อ ${fmt(x.joined_at)}</div></div><span class="pill ${x.rewarded ? 'g' : 'a'}">${x.rewarded ? 'ได้ดาวแล้ว' : 'รอช่วยงานแรก'}</span></div>`).join('') || '<p class="muted" style="margin:10px 0 0">ยังไม่มีเพื่อนที่สมัครผ่านลิงก์ของคุณ</p>'}</div>
+  <div class="card" style="margin-top:14px"><b>🎟️ แลกดาว: ลงคลิปโดยไม่ต้องช่วย</b>
+    <p class="muted" style="margin:6px 0 10px">บัตร 1 ใบ = วางลิงก์คลิปถัดไปได้เลยโดยไม่ต้องช่วยเพื่อนก่อน ระบบใช้บัตรให้เองตอนที่ถูกบังคับให้ช่วยเท่านั้น (คลิปแรกลงได้ฟรีอยู่แล้ว)</p>
+    <div class="grid c3 hs"><div class="sub"><div class="muted">ดาวของฉัน</div><b style="color:#fcd34d">${u.stars} ★</b></div><div class="sub"><div class="muted">บัตรที่มี</div><b style="color:var(--cyan)">${u.skip_passes || 0} ใบ</b></div><div class="sub"><div class="muted">ราคา/ใบ</div><b>${cost} ★</b></div></div>
+    <button class="btn w" style="margin-top:12px" data-act="redeem" ${can ? '' : 'disabled'}>${cost <= 0 ? 'ปิดระบบแลกอยู่' : can ? 'แลกบัตร 1 ใบ (ใช้ ' + cost + ' ★)' : 'ดาวไม่พอ (ขาดอีก ' + (cost - u.stars) + ' ★)'}</button>
+    <p class="muted" style="margin:10px 0 0">หาดาวได้จาก: ช่วยเพื่อน +${set.point_per_help} ★ ต่อครั้ง • เชิญเพื่อน +${reward} ★ ต่อคน</p></div>`;
+};
+view.app = () => {
+  const u = S.me, adm = u.role === 'admin';
+  return `<div class="head"><div class="row" style="max-width:1100px;margin:0 auto">
+    <div class="logo" style="font-size:20px"><b style="width:36px;height:36px;font-size:18px;border-radius:12px">R</b><span>reel<i>mate</i></span></div>
+    <span class="grow"></span><span class="pill a">⭐ ${u.stars}</span>
+    <button class="btn s ${S.gate && S.gate.ok === false ? 'g' : ''}" data-act="add">+ เพิ่ม Reel</button>
+    <button class="av" style="background:${esc(u.color)}33;color:${esc(u.color)}" data-act="me" aria-label="โปรไฟล์">${esc(ini(u.display_name))}</button></div></div>
+  <div class="wrap">
+    ${S.tab === 'admin' ? '' : `
+    <div class="card" style="margin-top:14px;background:linear-gradient(135deg,#16233d,#12161f)"><div class="muted" style="color:var(--cyan)">สวัสดี ${esc(u.display_name)} 👋</div>
+      <h2 style="margin:4px 0 0;font-size:26px">ช่วยเพื่อนดูคลิป<br>สะสมดาวไปด้วยกัน</h2>
+      <div class="pill b" style="margin-top:10px">👥 สมาชิกทั้งหมด ${Number(S.set.member_count || 0).toLocaleString('en-US')} คน</div>
+      <div class="grid c3 hs" style="margin-top:14px"><div class="sub"><div class="muted">คะแนน/การช่วย</div><b style="color:var(--cyan)">+${S.set.point_per_help}</b></div><div class="sub"><div class="muted">ดาวของฉัน</div><b style="color:#fcd34d">${u.stars}</b></div><div class="sub"><div class="muted">ช่วยแล้ว</div><b style="color:#4ade80">${u.helped} ครั้ง</b></div></div></div>`}
+    <div class="tabs" style="margin-top:14px">
+      <button class="${S.tab==='feed'?'on':''}" data-act="tab" data-v="feed">ฟีด</button>
+      <button class="${S.tab==='history'?'on':''}" data-act="tab" data-v="history">ประวัติของฉัน (${S.myReels.length})</button>
+      <button class="${S.tab==='board'?'on':''}" data-act="tab" data-v="board">Leaderboard</button>
+      <button class="${S.tab==='rewards'?'on':''}" data-act="tab" data-v="rewards">🎁 เชิญเพื่อน</button>
+      ${adm?`<button class="${S.tab==='admin'?'on':''}" data-act="tab" data-v="admin">🛡️ แอดมิน</button>`:''}</div>
+    ${view[S.tab]()}</div>`;
+};
+
+function render() {
+  const active = document.activeElement?.id;
+  const keep = {};
+  document.querySelectorAll('#app input[id],#app textarea[id],#app select[id]').forEach(i => { keep[i.id] = i.type === 'checkbox' ? i.checked : i.value; });
+  $('app').innerHTML = !S.ready ? '<div class="auth muted">กำลังโหลด…</div>' : !S.me ? view.auth() : view.app() + view.modal();
+  for (const id in keep) { const el = $(id); if (!el) continue; if (el.type === 'checkbox') el.checked = keep[id]; else el.value = keep[id]; }
+  document.querySelectorAll('#app .tabs').forEach(t => { const b = t.querySelector('button.on'); if (b) t.scrollLeft = b.offsetLeft - (t.clientWidth - b.offsetWidth) / 2; });
+  if (active && $(active)) $(active).focus();
+}
+
+/* ============ การกระทำ ============ */
+const A = {
+  mode: el => { S.mode = el.dataset.v; S.err = ''; render(); },
+  tab: el => { S.tab = el.dataset.v; if (S.tab === 'admin') quick('กำลังโหลดข้อมูลแอดมิน', loadAdmin); else render(); },
+  atab: el => { S.atab = el.dataset.v; render(); },
+  uf: el => { S.uf = el.dataset.v; render(); },
+  hf: el => { S.hf = el.dataset.v; render(); },
+  rf: el => { S.rf = el.dataset.v; render(); },
+  plat: el => { S.platform = el.dataset.v; quick('กำลังโหลดฟีด', load); },
+  help: el => { S.modal = { t: 'help', id: el.dataset.id, step: 1 }; S.err = ''; render(); },
+  'help-step': el => { S.modal.step = Number(el.dataset.v); S.err = ''; render(); },
+  'help-open': el => { const r = S.feed.find(x => x.id === el.dataset.id); S.modal.step = 2; render();
+    if (r && /^https?:\/\//i.test(r.link || '')) { try { sessionStorage.setItem('rm_help_pending', JSON.stringify({ id: r.id, t: Date.now() })); } catch (e) {} location.assign(r.link); } },
+  detail: el => { S.modal = { t: 'detail', id: el.dataset.id }; render(); },
+  edit: el => { S.modal = { t: 'edit', id: el.dataset.id }; S.err = ''; render(); },
+  'copy-invite': async () => { const t = inviteLink(); try { await navigator.clipboard.writeText(t); toast('คัดลอกลิงก์เชิญแล้ว'); } catch (e) { const i = $('inv-link'); if (i) { i.focus(); i.select(); try { document.execCommand('copy'); toast('คัดลอกลิงก์เชิญแล้ว'); } catch (e2) { toast('กดค้างที่ช่องแล้วเลือกคัดลอก', true); } } } },
+  'share-invite': async () => { try { await navigator.share({ title: 'reelmate', text: 'มาช่วยกันดัน Reel ที่ reelmate', url: inviteLink() }); } catch (e) {} },
+  redeem: () => { const c = S.set.skip_pass_cost; if (confirm('แลกบัตรข้ามการช่วย 1 ใบ ใช้ ' + c + ' ดาว?')) go(async () => must(await sb.rpc('redeem_skip_pass')), 'แลกบัตรสำเร็จ'); },
+  bump: el => go(async () => must(await sb.rpc('bump_my_reel', { p_id: el.dataset.id })), 'ดันคลิปขึ้นใหม่แล้ว'),
+  add: () => {
+    const g = S.gate;
+    if (g && g.ok === false && g.required) { toast('ต้องช่วยเพื่อนอีก ' + g.need + ' งาน ถึงจะลงคลิปได้ (ช่วยแล้ว ' + g.helped + '/' + g.required + ')', true); S.tab = 'feed'; S.modal = null; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    S.modal = { t: 'add', step: 1, link: '', title: '' }; S.err = ''; render(); },
+  'add-back': () => { S.modal.title = val('a-title'); S.modal.step = 1; S.err = ''; render(); },
+  paste: async () => { try { const t = await navigator.clipboard.readText(); if (t) { $('a-link').value = t.trim(); toast('วางลิงก์จากคลิปบอร์ดแล้ว'); } } catch { toast('กด Ctrl+V หรือแตะค้างในช่องลิงก์เพื่อวาง', true); } },
+  'cover-refresh': () => loadCover(true),
+  pw: () => { S.showpw = !S.showpw; render(); },
+  'guide-close': () => { S.guideHidden = true; try { localStorage.setItem('rm_guide_hidden', '1'); } catch (e) {} render(); },
+  'guide-open': () => { S.guideHidden = false; try { localStorage.removeItem('rm_guide_hidden'); } catch (e) {} render(); },
+  splat: el => { S.splat = el.dataset.v; render(); },
+  report: el => { S.modal = { t: 'report', id: el.dataset.id }; S.err = ''; render(); },
+  me: () => { S.modal = { t: 'me' }; render(); },
+  close: () => { S.modal = null; S.err = ''; try { sessionStorage.removeItem('rm_help_pending'); } catch (e) {} render(); },
+  mask: (el, e) => { if (e.target === el) A.close(); },
+  logout: () => quick('กำลังออกจากระบบ', async () => { await sb.auth.signOut(); S.me = null; S.modal = null; S.adm = null; S.tab = 'feed'; }),
+  'u-suspend': el => adminUser(el, u => ({ suspended: !u.suspended }), 'อัปเดตสถานะแล้ว'),
+  'u-warn': el => adminUser(el, u => ({ warnings: u.warnings + 1, status: u.status === 'แบน' ? 'แบน' : 'เตือน' }), 'เพิ่มใบเตือนแล้ว'),
+  'u-honor': el => adminUser(el, u => ({ honor: !u.honor }), 'อัปเดตแล้ว'),
+  'u-tag': el => adminUser(el, u => { const t = u.tags || [], v = el.dataset.v; return { tags: t.includes(v) ? t.filter(x => x !== v) : [...t, v] }; }, 'อัปเดตป้ายแล้ว'),
+  'r-status': el => go(async () => must(await sb.from('reels').update({ status: el.dataset.v }).eq('id', el.dataset.id)), 'อัปเดตคลิปแล้ว'),
+  'r-pin': el => go(async () => must(await sb.from('reels').update({ pinned: el.dataset.v === '1' }).eq('id', el.dataset.id)), 'อัปเดตแล้ว'),
+  'r-del': el => { if (confirm('ลบคลิปนี้ถาวร?')) go(async () => must(await sb.from('reels').delete().eq('id', el.dataset.id)), 'ลบคลิปแล้ว'); },
+  'h-ok': el => go(async () => must(await sb.rpc('admin_approve_helps', { p_ids: [el.dataset.id] })), 'อนุมัติแล้ว'),
+  'h-ok-all': () => { const rm = new Map(S.adm.reels.map(r => [r.id, r])), n = t => String(t || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    const ids = S.adm.helps.filter(h => h.status === 'รอตรวจ' && n((rm.get(h.reel_id)?.basket || []).join(', ')) && n((rm.get(h.reel_id)?.basket || []).join(', ')) === n(h.typed)).map(h => h.id);
+    if (!ids.length) return;
+    if (confirm('อนุมัติที่ตรงเป๊ะทั้งหมด ' + ids.length + ' รายการ?')) go(async () => must(await sb.rpc('admin_approve_helps', { p_ids: ids })), 'อนุมัติแล้ว'); },
+  'h-no': el => go(async () => must(await sb.rpc('admin_reject_help', { p_help: el.dataset.id, p_deduct: false })), 'ปฏิเสธแล้ว'),
+  'h-deduct': el => { if (confirm('ปฏิเสธและตัดเครดิต 10 ดาว?')) go(async () => must(await sb.rpc('admin_reject_help', { p_help: el.dataset.id, p_deduct: true })), 'ตัดเครดิตแล้ว'); },
+  'p-ok': el => go(async () => must(await sb.from('reports').update({ status: 'ตรวจสอบแล้ว' }).eq('id', el.dataset.id)), 'บันทึกแล้ว'),
+  'p-pause': el => go(async () => {
+    const r = S.adm.reports.find(x => x.id === el.dataset.id);
+    must(await sb.from('reports').update({ status: 'พักคลิปแล้ว' }).eq('id', r.id));
+    must(await sb.from('reels').update({ status: 'หยุดแสดง' }).eq('id', r.reel_id));
+  }, 'พักคลิปแล้ว'),
+  'p-del': el => go(async () => must(await sb.from('reports').delete().eq('id', el.dataset.id)), 'ลบรายงานแล้ว')
+};
+function adminUser(el, patch, msg) {
+  const u = S.adm.users.find(x => x.id === el.dataset.id);
+  return go(async () => must(await sb.from('profiles').update(patch(u)).eq('id', u.id)), msg);
+}
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  if (el.dataset.act === 'mask' && e.target !== el) return; // คลิกในโมดัล ต้องไม่ preventDefault ไม่งั้นปุ่ม submit ไม่ทำงาน
+  const fn = A[el.dataset.act]; if (fn) { e.preventDefault(); fn(el, e); }
+});
+
+const F = {
+  login: () => go(async () => {
+    const u = val('f-user').toLowerCase();
+    must(await sb.auth.signInWithPassword({ email: u + '@reelmate.app', password: $('f-pass').value }));
+  }, 'เข้าสู่ระบบสำเร็จ', 'กำลังเข้าสู่ระบบ'),
+  signup: () => {
+    const name = val('f-name'), u = val('f-user').toLowerCase(), p = $('f-pass').value;
+    if (!/^[a-z0-9._-]{3,30}$/.test(u)) { S.err = 'ชื่อผู้ใช้ 3–30 ตัว ใช้ a-z 0-9 . _ - เท่านั้น'; return render(); }
+    if (p.length < 6) { S.err = 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร'; return render(); }
+    if (p !== $('f-pass2').value) { S.err = 'รหัสผ่านไม่ตรงกัน'; return render(); }
+    return go(async () => {
+      const { data, error } = await sb.auth.signUp({ email: u + '@reelmate.app', password: p,
+        options: { data: { username: u, display_name: name, platform_pref: S.splat, ref: S.ref || '' } } });
+      if (error) throw error;
+      if (!data.session) throw new Error('สมัครแล้ว แต่ระบบยังเปิดยืนยันอีเมลอยู่ — ให้แอดมินปิด “Confirm email” ใน Supabase Auth ก่อน');
+      try { localStorage.removeItem('rm_ref'); S.ref = ''; } catch (e) {}
+    }, 'สมัครสำเร็จ ยินดีต้อนรับ!');
+  },
+  help: form => go(async () => must(await sb.rpc('submit_help', { p_reel_id: form.dataset.id, p_typed: val('h-typed') })), 'ช่วยสำเร็จ!'),
+  addnext: () => {
+    const link = val('a-link');
+    if (!REEL_RE.test(link)) { S.err = 'ลิงก์ไม่ถูกต้อง ต้องเป็นลิงก์ Reel ของ Facebook หรือ Instagram เท่านั้น'; return render(); }
+    const platform = /instagram\.com|instagr\.am/i.test(link) ? 'Instagram' : 'Facebook';
+    S.modal = { t: 'add', step: 2, link, platform, title: S.modal.title || `Reel จาก ${platform}`, cover: '', coverState: 'loading' }; S.err = ''; render(); loadCover();
+  },
+  add: () => {
+    const link = S.modal.link, platform = S.modal.platform;
+    if (!REEL_RE.test(link || '')) { S.err = 'ลิงก์ไม่ถูกต้อง'; S.modal.step = 1; return render(); }
+    if (BAD_BASKET_RE.test(val('a-basket'))) { S.err = BAD_BASKET_MSG; return render(); }
+    const cover = val('a-cover');
+    return go(async () => must(await sb.rpc('create_reel', { p_title: val('a-title'), p_platform: platform, p_link: link, p_basket: val('a-basket'), p_cover: /^https:\/\//i.test(cover) ? cover : null })), 'โพสต์สำเร็จ รอเพื่อนมาช่วย');
+  },
+  edit: form => {
+    const link = val('e-link');
+    if (!REEL_RE.test(link)) { S.err = 'ลิงก์ไม่ถูกต้อง ต้องเป็นลิงก์ Reel ของ Facebook หรือ Instagram เท่านั้น'; return render(); }
+    if (BAD_BASKET_RE.test(val('e-basket'))) { S.err = BAD_BASKET_MSG; return render(); }
+    const cover = val('e-cover');
+    return go(async () => must(await sb.rpc('update_my_reel', { p_id: form.dataset.id, p_title: val('e-title'), p_link: link, p_basket: val('e-basket'), p_cover: /^https:\/\//i.test(cover) ? cover : null })), 'แก้ไขคลิปแล้ว');
+  },
+  report: form => go(async () => must(await sb.from('reports').insert({ reporter_id: S.me.id, reel_id: form.dataset.id, reason: val('p-why') })), 'ส่งรายงานแล้ว'),
+  credit: () => go(async () => must(await sb.rpc('admin_adjust_credit', { p_user: val('c-user'), p_kind: val('c-kind'), p_amount: Number(val('c-amt')), p_reason: val('c-why') })), 'ปรับเครดิตแล้ว'),
+  settings: () => go(async () => {
+    const patch = { updated_at: new Date().toISOString() };
+    SET_FIELDS.forEach(([k]) => patch[k] = Number(val('s-' + k)));
+    ['report_on', 'ig_follow_on', 'mode200_enabled', 'auto_approve_exact'].forEach(k => patch[k] = $('s-' + k).checked);
+    must(await sb.from('settings').update(patch).eq('id', 1));
+  }, 'บันทึกการตั้งค่าแล้ว')
+};
+document.addEventListener('input', e => { const k = { 'q-search': 'q', 'u-search': 'uq' }[e.target.id]; if (!k) return; const id = e.target.id; S[k] = e.target.value; render(); const el = $(id); if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); } });
+document.addEventListener('submit', e => {
+  const form = e.target.closest('[data-form]'); if (!form) return;
+  e.preventDefault();
+  const fn = F[form.dataset.form]; if (fn) fn(form);
+});
+
+// ห้ามเรียก supabase แบบ await ตรงๆ ใน callback นี้ (อาจ deadlock) จึงเลื่อนไปรอบถัดไป
+sb.auth.onAuthStateChange((ev) => { if (ev === 'SIGNED_OUT') setTimeout(load, 0); });
+load().catch(e => { S.ready = true; S.err = niceErr(e); render(); });
+</script>
+</body>
+</html>
